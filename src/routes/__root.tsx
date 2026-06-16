@@ -58,12 +58,16 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Arranjo de Discursos 2026" },
+      { title: "Arranjo de Discursos" },
       { name: "description", content: "Sistema de agendamento de discursos públicos, oradores e presidentes." },
-      { property: "og:title", content: "Arranjo de Discursos 2026" },
+      { property: "og:title", content: "Arranjo de Discursos" },
       { property: "og:description", content: "Sistema de agendamento de discursos públicos, oradores e presidentes." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },
+      { name: "twitter:title", content: "Arranjo de Discursos" },
+      { name: "twitter:description", content: "Sistema de agendamento de discursos públicos, oradores e presidentes." },
+      { property: "og:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/7d8e8052-a616-468d-93a6-6dda41643e52/id-preview-893f8718--bd2a8750-ffa9-4c63-ba67-4d522d02b4ff.lovable.app-1781653637211.png" },
+      { name: "twitter:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/7d8e8052-a616-468d-93a6-6dda41643e52/id-preview-893f8718--bd2a8750-ffa9-4c63-ba67-4d522d02b4ff.lovable.app-1781653637211.png" },
     ],
     links: [
       { rel: "stylesheet", href: appCss },
