@@ -14,6 +14,7 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as AdminIndexRouteImport } from './routes/admin.index'
 import { Route as AdminTemasRouteImport } from './routes/admin.temas'
 import { Route as AdminOradoresRouteImport } from './routes/admin.oradores'
+import { Route as AdminMasterRouteImport } from './routes/admin.master'
 import { Route as AdminCongregacoesRouteImport } from './routes/admin.congregacoes'
 import { Route as AdminAgendaRouteImport } from './routes/admin.agenda'
 
@@ -42,6 +43,11 @@ const AdminOradoresRoute = AdminOradoresRouteImport.update({
   path: '/oradores',
   getParentRoute: () => AdminRoute,
 } as any)
+const AdminMasterRoute = AdminMasterRouteImport.update({
+  id: '/master',
+  path: '/master',
+  getParentRoute: () => AdminRoute,
+} as any)
 const AdminCongregacoesRoute = AdminCongregacoesRouteImport.update({
   id: '/congregacoes',
   path: '/congregacoes',
@@ -58,6 +64,7 @@ export interface FileRoutesByFullPath {
   '/admin': typeof AdminRouteWithChildren
   '/admin/agenda': typeof AdminAgendaRoute
   '/admin/congregacoes': typeof AdminCongregacoesRoute
+  '/admin/master': typeof AdminMasterRoute
   '/admin/oradores': typeof AdminOradoresRoute
   '/admin/temas': typeof AdminTemasRoute
   '/admin/': typeof AdminIndexRoute
@@ -66,6 +73,7 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/admin/agenda': typeof AdminAgendaRoute
   '/admin/congregacoes': typeof AdminCongregacoesRoute
+  '/admin/master': typeof AdminMasterRoute
   '/admin/oradores': typeof AdminOradoresRoute
   '/admin/temas': typeof AdminTemasRoute
   '/admin': typeof AdminIndexRoute
@@ -76,6 +84,7 @@ export interface FileRoutesById {
   '/admin': typeof AdminRouteWithChildren
   '/admin/agenda': typeof AdminAgendaRoute
   '/admin/congregacoes': typeof AdminCongregacoesRoute
+  '/admin/master': typeof AdminMasterRoute
   '/admin/oradores': typeof AdminOradoresRoute
   '/admin/temas': typeof AdminTemasRoute
   '/admin/': typeof AdminIndexRoute
@@ -87,6 +96,7 @@ export interface FileRouteTypes {
     | '/admin'
     | '/admin/agenda'
     | '/admin/congregacoes'
+    | '/admin/master'
     | '/admin/oradores'
     | '/admin/temas'
     | '/admin/'
@@ -95,6 +105,7 @@ export interface FileRouteTypes {
     | '/'
     | '/admin/agenda'
     | '/admin/congregacoes'
+    | '/admin/master'
     | '/admin/oradores'
     | '/admin/temas'
     | '/admin'
@@ -104,6 +115,7 @@ export interface FileRouteTypes {
     | '/admin'
     | '/admin/agenda'
     | '/admin/congregacoes'
+    | '/admin/master'
     | '/admin/oradores'
     | '/admin/temas'
     | '/admin/'
@@ -151,6 +163,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminOradoresRouteImport
       parentRoute: typeof AdminRoute
     }
+    '/admin/master': {
+      id: '/admin/master'
+      path: '/master'
+      fullPath: '/admin/master'
+      preLoaderRoute: typeof AdminMasterRouteImport
+      parentRoute: typeof AdminRoute
+    }
     '/admin/congregacoes': {
       id: '/admin/congregacoes'
       path: '/congregacoes'
@@ -171,6 +190,7 @@ declare module '@tanstack/react-router' {
 interface AdminRouteChildren {
   AdminAgendaRoute: typeof AdminAgendaRoute
   AdminCongregacoesRoute: typeof AdminCongregacoesRoute
+  AdminMasterRoute: typeof AdminMasterRoute
   AdminOradoresRoute: typeof AdminOradoresRoute
   AdminTemasRoute: typeof AdminTemasRoute
   AdminIndexRoute: typeof AdminIndexRoute
@@ -179,6 +199,7 @@ interface AdminRouteChildren {
 const AdminRouteChildren: AdminRouteChildren = {
   AdminAgendaRoute: AdminAgendaRoute,
   AdminCongregacoesRoute: AdminCongregacoesRoute,
+  AdminMasterRoute: AdminMasterRoute,
   AdminOradoresRoute: AdminOradoresRoute,
   AdminTemasRoute: AdminTemasRoute,
   AdminIndexRoute: AdminIndexRoute,

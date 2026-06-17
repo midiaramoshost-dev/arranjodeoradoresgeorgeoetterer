@@ -1,0 +1,1740 @@
+{
+  "themes": [
+    {
+      "num": 1,
+      "title": "Você conhece bem a Deus?"
+    },
+    {
+      "num": 2,
+      "title": "Você vai sobreviver aos últimos dias?"
+    },
+    {
+      "num": 3,
+      "title": "Você está avançando com a organização unida de Jeová?"
+    },
+    {
+      "num": 4,
+      "title": "Que provas temos de que Deus existe?"
+    },
+    {
+      "num": 5,
+      "title": "Você pode ter uma família feliz!"
+    },
+    {
+      "num": 6,
+      "title": "O dilúvio dos dias de Noé e você"
+    },
+    {
+      "num": 7,
+      "title": "Imite a misericórdia de Jeová"
+    },
+    {
+      "num": 8,
+      "title": "Viva para fazer a vontade de Deus"
+    },
+    {
+      "num": 9,
+      "title": "Escute e faça o que a Bíblia diz"
+    },
+    {
+      "num": 10,
+      "title": "Seja honesto em tudo"
+    },
+    {
+      "num": 11,
+      "title": "Imite a Jesus e não faça parte do mundo"
+    },
+    {
+      "num": 12,
+      "title": "Deus quer que você respeite quem tem autoridade"
+    },
+    {
+      "num": 13,
+      "title": "Qual o ponto de vista de Deus sobre o sexo e o casamento?"
+    },
+    {
+      "num": 14,
+      "title": "Um povo puro e limpo honra a Jeová"
+    },
+    {
+      "num": 15,
+      "title": "‘Faça o bem a todos’"
+    },
+    {
+      "num": 16,
+      "title": "Seja cada vez mais amigo de Jeová"
+    },
+    {
+      "num": 17,
+      "title": "Glorifique a Deus com tudo o que você tem"
+    },
+    {
+      "num": 18,
+      "title": "Faça de Jeová a sua fortaleza"
+    },
+    {
+      "num": 19,
+      "title": "Como você pode saber seu futuro?"
+    },
+    {
+      "num": 20,
+      "title": "Chegou o tempo de Deus governar o mundo?"
+    },
+    {
+      "num": 21,
+      "title": "Dê valor ao seu lugar no Reino de Deus"
+    },
+    {
+      "num": 22,
+      "title": "Você está usando bem o que Jeová lhe dá?"
+    },
+    {
+      "num": 23,
+      "title": "A vida tem objetivo"
+    },
+    {
+      "num": 24,
+      "title": "Você encontrou “uma pérola de grande valor”?"
+    },
+    {
+      "num": 25,
+      "title": "Lute contra o espírito do mundo"
+    },
+    {
+      "num": 26,
+      "title": "Você  É Importante Para Deus?"
+    },
+    {
+      "num": 27,
+      "title": "Como construir um casamento feliz"
+    },
+    {
+      "num": 28,
+      "title": "Mostre respeito e amor no seu casamento"
+    },
+    {
+      "num": 29,
+      "title": "As responsabilidades e recompensas de ter filhos"
+    },
+    {
+      "num": 30,
+      "title": "Como melhorar a comunicação na família"
+    },
+    {
+      "num": 31,
+      "title": "Você tem consciência da sua necessidade espiritual?"
+    },
+    {
+      "num": 32,
+      "title": "Como lidar com as ansiedades da vida"
+    },
+    {
+      "num": 33,
+      "title": "Quando vai existir verdadeira justiça?"
+    },
+    {
+      "num": 34,
+      "title": "(Indisponível)"
+    },
+    {
+      "num": 35,
+      "title": "É possível viver para sempre? O que você precisa fazer?"
+    },
+    {
+      "num": 36,
+      "title": "Será que a vida é só isso?"
+    },
+    {
+      "num": 37,
+      "title": "Obedecer a Deus é mesmo a melhor coisa a fazer?"
+    },
+    {
+      "num": 38,
+      "title": "Como você pode sobreviver ao fim do mundo?"
+    },
+    {
+      "num": 39,
+      "title": "Confie na vitória divina!"
+    },
+    {
+      "num": 40,
+      "title": "O que vai acontecer em breve?"
+    },
+    {
+      "num": 41,
+      "title": "Fiquem parados e vejam como Jeová os salvará"
+    },
+    {
+      "num": 42,
+      "title": "O efeito do Reino de Deus sobre você"
+    },
+    {
+      "num": 43,
+      "title": "Tudo o que Deus nos pede é para o nosso bem"
+    },
+    {
+      "num": 44,
+      "title": "Como os ensinos de Jesus podem ajudar você?"
+    },
+    {
+      "num": 45,
+      "title": "Continue andando no caminho que leva à vida"
+    },
+    {
+      "num": 46,
+      "title": "Fortaleça sua confiança em Jeová"
+    },
+    {
+      "num": 47,
+      "title": "Tenha fé nas boas novas"
+    },
+    {
+      "num": 48,
+      "title": "Seja leal a Deus mesmo quando for testado"
+    },
+    {
+      "num": 49,
+      "title": "Será que um dia a Terra vai ser limpa?"
+    },
+    {
+      "num": 50,
+      "title": "Como sempre tomar as melhores decisões"
+    },
+    {
+      "num": 51,
+      "title": "Será que a verdade da Bíblia está mudando a sua vida?"
+    },
+    {
+      "num": 52,
+      "title": "Quem é o seu Deus?"
+    },
+    {
+      "num": 53,
+      "title": "Você pensa como Deus?"
+    },
+    {
+      "num": 54,
+      "title": "Fortaleça sua fé em Deus e em suas promessas"
+    },
+    {
+      "num": 55,
+      "title": "Você está fazendo um bom nome perante Deus?"
+    },
+    {
+      "num": 56,
+      "title": "Existe um líder em quem você pode confiar?"
+    },
+    {
+      "num": 57,
+      "title": "Como suportar perseguição"
+    },
+    {
+      "num": 58,
+      "title": "Quem são os verdadeiros seguidores de Cristo?"
+    },
+    {
+      "num": 59,
+      "title": "Ceifará o que semear"
+    },
+    {
+      "num": 60,
+      "title": "Você tem um objetivo na vida?"
+    },
+    {
+      "num": 61,
+      "title": "Nas promessas de quem você confia?"
+    },
+    {
+      "num": 62,
+      "title": "Onde encontrar uma esperança real para o futuro?"
+    },
+    {
+      "num": 63,
+      "title": "Tem você espírito evangelizador?"
+    },
+    {
+      "num": 64,
+      "title": "Você ama os prazeres ou a Deus?"
+    },
+    {
+      "num": 65,
+      "title": "Como podemos ser pacíficos num mundo cheio de ódio"
+    },
+    {
+      "num": 66,
+      "title": "Você também vai participar na colheita?"
+    },
+    {
+      "num": 67,
+      "title": "Medite na Bíblia e nas criações de Jeová"
+    },
+    {
+      "num": 68,
+      "title": "Guarda ressentimento ou é perdoador?"
+    },
+    {
+      "num": 69,
+      "title": "Por que mostrar amor abnegado?"
+    },
+    {
+      "num": 70,
+      "title": "Faça de Jeová a sua confiança"
+    },
+    {
+      "num": 71,
+      "title": "‘Mantenha-se desperto’ — Por que e como?"
+    },
+    {
+      "num": 72,
+      "title": "O amor identifica os cristãos verdadeiros"
+    },
+    {
+      "num": 73,
+      "title": "Como adquirir um coração sábio"
+    },
+    {
+      "num": 74,
+      "title": "Os olhos de Jeová nos observam"
+    },
+    {
+      "num": 75,
+      "title": "Mostre que você apoia o direito de Jeová governar"
+    },
+    {
+      "num": 76,
+      "title": "Princípios bíblicos — podem nos ajudar a lidar com os problemas atuais?"
+    },
+    {
+      "num": 77,
+      "title": "Siga o proceder da hospitalidade"
+    },
+    {
+      "num": 78,
+      "title": "Sirva a Jeová com coração alegre"
+    },
+    {
+      "num": 79,
+      "title": "Você vai escolher ser amigo de Deus?"
+    },
+    {
+      "num": 80,
+      "title": "Baseia a sua esperança na ciência ou na Bíblia?"
+    },
+    {
+      "num": 81,
+      "title": "Quem está habilitado para ser ministro de Deus?"
+    },
+    {
+      "num": 82,
+      "title": "Jeová e Cristo fazem parte de uma trindade?"
+    },
+    {
+      "num": 83,
+      "title": "Tempo de julgamento da religião"
+    },
+    {
+      "num": 84,
+      "title": "Escapará do destino deste mundo?"
+    },
+    {
+      "num": 85,
+      "title": "Boas notícias num mundo violento"
+    },
+    {
+      "num": 86,
+      "title": "Orações que são ouvidas por Deus"
+    },
+    {
+      "num": 87,
+      "title": "Qual é a sua relação com Deus?"
+    },
+    {
+      "num": 88,
+      "title": "Por que viver segundo as normas da Bíblia?"
+    },
+    {
+      "num": 89,
+      "title": "Venham os que têm sede da verdade!"
+    },
+    {
+      "num": 90,
+      "title": "Faça o máximo para alcançar a verdadeira vida!"
+    },
+    {
+      "num": 91,
+      "title": "A presença do Messias e seu domínio"
+    },
+    {
+      "num": 92,
+      "title": "O papel da religião nos assuntos do mundo"
+    },
+    {
+      "num": 93,
+      "title": "Catástrofes naturais — como as encara?"
+    },
+    {
+      "num": 94,
+      "title": "A religião verdadeira atende às necessidades da sociedade humana"
+    },
+    {
+      "num": 95,
+      "title": "O conceito da Bíblia sobre práticas espíritas"
+    },
+    {
+      "num": 96,
+      "title": "O que vai acontecer com as religiões?"
+    },
+    {
+      "num": 97,
+      "title": "Permaneçamos inculpes em meio a uma geração pervertida"
+    },
+    {
+      "num": 98,
+      "title": "“A cena deste mundo está mudando”"
+    },
+    {
+      "num": 99,
+      "title": "Por que você pode confiar na Bíblia"
+    },
+    {
+      "num": 100,
+      "title": "Como Fazer Amizades Forte e Verdadeiras"
+    },
+    {
+      "num": 101,
+      "title": "Jeová — o Grandioso Criador"
+    },
+    {
+      "num": 102,
+      "title": "Preste atenção à Palavra Profética"
+    },
+    {
+      "num": 103,
+      "title": "Pode-se encontrar alegria em servir a Deus"
+    },
+    {
+      "num": 104,
+      "title": "Pais — estão construindo com materiais à prova de fogo?"
+    },
+    {
+      "num": 105,
+      "title": "Somos consolados em todas as nossas tribulações"
+    },
+    {
+      "num": 106,
+      "title": "Arruinar a Terra provocará retribuição divina"
+    },
+    {
+      "num": 107,
+      "title": "Tenha uma boa consciência neste mundo pecaminoso"
+    },
+    {
+      "num": 108,
+      "title": "Você  Pode Encarar o Futcom Confiança."
+    },
+    {
+      "num": 109,
+      "title": "O Reino de Deus está próximo"
+    },
+    {
+      "num": 110,
+      "title": "Deus vem primeiro na vida familiar bem sucedida"
+    },
+    {
+      "num": 111,
+      "title": "O que é realizado pela cura das nações?"
+    },
+    {
+      "num": 112,
+      "title": "Como expressar amor num mundo que viola a lei"
+    },
+    {
+      "num": 113,
+      "title": "Jovens — como vocês podem ter uma vida feliz?"
+    },
+    {
+      "num": 114,
+      "title": "Apreço pelas maravilhas da criação de Deus"
+    },
+    {
+      "num": 115,
+      "title": "Como proteger-nos contra os laços de Satanás"
+    },
+    {
+      "num": 116,
+      "title": "Escolha sabiamente com quem irá associar-se!"
+    },
+    {
+      "num": 117,
+      "title": "Como vencer o mal com o bem"
+    },
+    {
+      "num": 118,
+      "title": "Olhemos os jovens do ponto de vista de Jeová"
+    },
+    {
+      "num": 119,
+      "title": "Por que é benéfico que os cristãos vivam separados do mundo"
+    },
+    {
+      "num": 120,
+      "title": "Por que se submeter à regência de Deus agora"
+    },
+    {
+      "num": 121,
+      "title": "Uma fraternidade mundial que será salva da calamidade"
+    },
+    {
+      "num": 122,
+      "title": "Paz global — de onde virá?"
+    },
+    {
+      "num": 123,
+      "title": "Por que os cristãos têm de ser diferentes?"
+    },
+    {
+      "num": 124,
+      "title": "Razões para crer que a Bíblia é de autoria divina"
+    },
+    {
+      "num": 125,
+      "title": "Por que a humanidade precisa de resgate?"
+    },
+    {
+      "num": 126,
+      "title": "Quem se salvará?"
+    },
+    {
+      "num": 127,
+      "title": "O que acontece quando morremos?"
+    },
+    {
+      "num": 128,
+      "title": "É o inferno um lugar de tormento ardente?"
+    },
+    {
+      "num": 129,
+      "title": "É a Trindade um ensino bíblico?"
+    },
+    {
+      "num": 130,
+      "title": "A Terra permanecerá para sempre"
+    },
+    {
+      "num": 131,
+      "title": "Será que o Diabo realmente existe?"
+    },
+    {
+      "num": 132,
+      "title": "Ressureição — a vitória sobre a morte!"
+    },
+    {
+      "num": 133,
+      "title": "Tem importância o que cremos sobre a nossa origem?"
+    },
+    {
+      "num": 134,
+      "title": "Devem os cristãos guardar o sábado?"
+    },
+    {
+      "num": 135,
+      "title": "A santidade da vida e do sangue"
+    },
+    {
+      "num": 136,
+      "title": "Será que Deus aprova o uso de imagens na adoração?"
+    },
+    {
+      "num": 137,
+      "title": "Ocorreram realmente os milagres da Bíblia?"
+    },
+    {
+      "num": 138,
+      "title": "Viva com bom juízo num mundo depravado"
+    },
+    {
+      "num": 139,
+      "title": "Sabedoria divina num mundo científico"
+    },
+    {
+      "num": 140,
+      "title": "Quem é realmente Jesus Cristo?"
+    },
+    {
+      "num": 141,
+      "title": "Quando terão fim os gemidos da criação humana?"
+    },
+    {
+      "num": 142,
+      "title": "Por que refugiar-se em Jeová"
+    },
+    {
+      "num": 143,
+      "title": "Confie no Deus de todo consolo"
+    },
+    {
+      "num": 144,
+      "title": "Uma congregação leal sob a liderança de Cristo"
+    },
+    {
+      "num": 145,
+      "title": "Quem é semelhante a Jeová, nosso Deus?"
+    },
+    {
+      "num": 146,
+      "title": "Use a educação para louvar a Jeová"
+    },
+    {
+      "num": 147,
+      "title": "Confie no poder salvador de Jeová"
+    },
+    {
+      "num": 148,
+      "title": "Você tem o mesmo conceito de Deus sobre a vida?"
+    },
+    {
+      "num": 149,
+      "title": "O que significa “andar com Deus”?"
+    },
+    {
+      "num": 150,
+      "title": "Este mundo está condenado à destruição?"
+    },
+    {
+      "num": 151,
+      "title": "Jeová é “uma altura protetora” para seu povo"
+    },
+    {
+      "num": 153,
+      "title": "Tenha bem em mente o “atemorizante dia”!"
+    },
+    {
+      "num": 154,
+      "title": "O governo humano é pesado na balança"
+    },
+    {
+      "num": 152,
+      "title": "Armagedom — por que e quando?"
+    },
+    {
+      "num": 155,
+      "title": "Chegou a hora do julgamento de Babilônia?"
+    },
+    {
+      "num": 156,
+      "title": "O Dia do Juízo — tempo de temor ou de esperança?"
+    },
+    {
+      "num": 157,
+      "title": "Como os verdadeiros cristãos adornam o ensino divino"
+    },
+    {
+      "num": 158,
+      "title": "Seja corajoso e confie em Jeová"
+    },
+    {
+      "num": 159,
+      "title": "Como encontrar segurança num mundo perigoso"
+    },
+    {
+      "num": 160,
+      "title": "Mantenha a identidade cristã!"
+    },
+    {
+      "num": 161,
+      "title": "Por que Jesus sofreu e morreu?"
+    },
+    {
+      "num": 162,
+      "title": "Seja liberto deste mundo em escuridão"
+    },
+    {
+      "num": 163,
+      "title": "Por que temer o Deus verdadeiro?"
+    },
+    {
+      "num": 164,
+      "title": "Será que Deus ainda está no controle?"
+    },
+    {
+      "num": 165,
+      "title": "Os valores de quem você preza?"
+    },
+    {
+      "num": 166,
+      "title": "Como enfrentar o futuro com fé e coragem"
+    },
+    {
+      "num": 167,
+      "title": "Ajamos sabiamente num mundo insensato"
+    },
+    {
+      "num": 168,
+      "title": "Você pode sentir-se seguro neste mundo atribulado!"
+    },
+    {
+      "num": 169,
+      "title": "Por que ser orientado pela Bíblia?"
+    },
+    {
+      "num": 170,
+      "title": "Quem está qualificado para governar a humanidade?"
+    },
+    {
+      "num": 171,
+      "title": "Poderá viver em paz agora — e para sempre!"
+    },
+    {
+      "num": 172,
+      "title": "Que reputação você tem perante Deus?"
+    },
+    {
+      "num": 173,
+      "title": "Existe uma religião verdadeira do ponto de vista de Deus?"
+    },
+    {
+      "num": 174,
+      "title": "Quem se qualificará para entrar no novo mundo de Deus?"
+    },
+    {
+      "num": 175,
+      "title": "O que prova que a Bíblia é autêntica?"
+    },
+    {
+      "num": 176,
+      "title": "Quando haverá verdadeira paz e segurança?"
+    },
+    {
+      "num": 177,
+      "title": "Onde encontrar ajuda em tempos de aflição?"
+    },
+    {
+      "num": 178,
+      "title": "Ande no caminho da integridade"
+    },
+    {
+      "num": 179,
+      "title": "Rejeite as fantasias do mundo, empenhe se pelas realidades do Reino"
+    },
+    {
+      "num": 180,
+      "title": "A ressureição — por que essa esperança deve ser real para você"
+    },
+    {
+      "num": 181,
+      "title": "Já é mais tarde do que você imagina?"
+    },
+    {
+      "num": 182,
+      "title": "O que o Reino de Deus está fazendo por nós agora?"
+    },
+    {
+      "num": 183,
+      "title": "Desvie seus olhos do que é fútil"
+    },
+    {
+      "num": 184,
+      "title": "A morte é o fim de tudo?"
+    },
+    {
+      "num": 185,
+      "title": "Será que a verdade influencia sua vida?"
+    },
+    {
+      "num": 186,
+      "title": "Sirva em união com o povo feliz de Deus"
+    },
+    {
+      "num": 187,
+      "title": "Por que um Deus amoroso permite a maldade?"
+    },
+    {
+      "num": 188,
+      "title": "Você confia em Jeová?"
+    },
+    {
+      "num": 189,
+      "title": "Ande com Deus e receba bênçãos para sempre"
+    },
+    {
+      "num": 190,
+      "title": "Como se cumprirá a promessa de perfeita felicidade familiar"
+    },
+    {
+      "num": 191,
+      "title": "Como o amor e a fé vencem o mundo"
+    },
+    {
+      "num": 192,
+      "title": "Você está no caminho para a vida eterna?"
+    },
+    {
+      "num": 193,
+      "title": "Os problemas de hoje logo serão coisa do passado"
+    },
+    {
+      "num": 194,
+      "title": "Como a sabedoria de Deus nos ajuda"
+    }
+  ],
+  "schedules": [
+    {
+      "date": "2026-01-03",
+      "rawDate": "Sábado 03/JAN 2026",
+      "sheet": "JAN 2026",
+      "orador": "Vanil Martins aguardando....",
+      "tema": "Como Fazer Amizades Fortes e  Verdadeiras?",
+      "themeNum": 100,
+      "congr": "Julio de Mesquita",
+      "presidente": "Igor",
+      "leitor": "",
+      "phone": "",
+      "notes": ""
+    },
+    {
+      "date": "2026-01-11",
+      "rawDate": "Dom 11 JAN 2026",
+      "sheet": "JAN 2026",
+      "orador": "Elias  Nvarro",
+      "tema": "Ajamos Sabiamente  Num Mundo Insensato",
+      "themeNum": 167,
+      "congr": "Jardim Monções",
+      "presidente": "Vanderlei",
+      "leitor": "",
+      "phone": "(15) 97404-9384",
+      "notes": ""
+    },
+    {
+      "date": "2026-01-18",
+      "rawDate": "DOM 18 JAN 2026",
+      "sheet": "JAN 2026",
+      "orador": "Julio",
+      "tema": "Será que a verdade da Bíblia está mudando a sua vida?",
+      "themeNum": 51,
+      "congr": "Jardim Monçoes",
+      "presidente": "Paulo Moraes",
+      "leitor": "Fábio R",
+      "phone": "(15) 99101-5346",
+      "notes": ""
+    },
+    {
+      "date": "2026-01-25",
+      "rawDate": "Dom 25 JAN 2026",
+      "sheet": "JAN 2026",
+      "orador": "Thiago Games",
+      "tema": "Obedecer a Deus é mesmo a melhor coisa a fazer?",
+      "themeNum": 37,
+      "congr": "Júlio de Mesquita",
+      "presidente": "Micael",
+      "leitor": "Israel",
+      "phone": "(15) 98816-1957",
+      "notes": ""
+    },
+    {
+      "date": "2026-02-01",
+      "rawDate": "Dom 01/02/2026",
+      "sheet": "fev2026",
+      "orador": "Renato Nine",
+      "tema": "Jeová e o Grandioso Criador",
+      "themeNum": 101,
+      "congr": "Verde Vale",
+      "presidente": "NILSON",
+      "leitor": "Matheus",
+      "phone": "(15) 99694-1906",
+      "notes": ""
+    },
+    {
+      "date": "2026-02-08",
+      "rawDate": "Dom 08/02/2026",
+      "sheet": "fev2026",
+      "orador": "Ivo Fracasso Pará",
+      "tema": "Como ter uma vida bem sucedida?",
+      "themeNum": 142,
+      "congr": "circuito sup.",
+      "presidente": "Silvano Passos",
+      "leitor": "",
+      "phone": "(11) 97455-2323",
+      "notes": ""
+    },
+    {
+      "date": "2026-02-15",
+      "rawDate": "Dom 15/02/2026",
+      "sheet": "fev2026",
+      "orador": "Eduardo jr",
+      "tema": "Nas promessas de quem voce confia?",
+      "themeNum": 61,
+      "congr": "Local",
+      "presidente": "RODRIGO",
+      "leitor": "MARCOS",
+      "phone": "",
+      "notes": "Local"
+    },
+    {
+      "date": "2026-02-22",
+      "rawDate": "Dom /22/02/026",
+      "sheet": "fev2026",
+      "orador": "Reiniao especial",
+      "tema": "N°30",
+      "themeNum": null,
+      "congr": "",
+      "presidente": "",
+      "leitor": "",
+      "phone": "(15) 97400-1033",
+      "notes": ""
+    },
+    {
+      "date": "2026-03-01",
+      "rawDate": "Dom 01/Mar/2026",
+      "sheet": "Mar2026",
+      "orador": "Jhonatas Pedroso",
+      "tema": "Você pode encarar o futuro com confiança",
+      "themeNum": 108,
+      "congr": "tropical",
+      "presidente": "Fábio",
+      "leitor": "Antony",
+      "phone": "",
+      "notes": ""
+    },
+    {
+      "date": "2028-03-08",
+      "rawDate": "Dom 08/Março/2028",
+      "sheet": "Mar2026",
+      "orador": "Bruno",
+      "tema": "Você é importante para Deus?",
+      "themeNum": 26,
+      "congr": "Maria Eugênia",
+      "presidente": "Ribamar",
+      "leitor": "Akilla",
+      "phone": "(15) 97602-0067",
+      "notes": "Betelita"
+    },
+    {
+      "date": "2026-03-15",
+      "rawDate": "Dom 15/03/2026",
+      "sheet": "Mar2026",
+      "orador": "Silvano Passos",
+      "tema": "Quem está qualificado para governar a humanidade?",
+      "themeNum": 16,
+      "congr": "George Oeterer",
+      "presidente": "Eduardo",
+      "leitor": "Daniel",
+      "phone": "(15) 99805-9176",
+      "notes": ""
+    },
+    {
+      "date": "2026-03-22",
+      "rawDate": "Dom 22/03/2026",
+      "sheet": "Mar2026",
+      "orador": "",
+      "tema": "Assembleia",
+      "themeNum": null,
+      "congr": "",
+      "presidente": "",
+      "leitor": "",
+      "phone": "",
+      "notes": ""
+    },
+    {
+      "date": "",
+      "rawDate": "Dom 29 /03/2026",
+      "sheet": "Mar2026",
+      "orador": "ÉLCIO BORGES",
+      "tema": "QUEM VAI SALVAR O NOSSO PLANETA?",
+      "themeNum": 61,
+      "congr": "Central",
+      "presidente": "Igor",
+      "leitor": "Anderson",
+      "phone": "",
+      "notes": ""
+    },
+    {
+      "date": "2026-04-05",
+      "rawDate": "Dom 05 Abril 2026",
+      "sheet": "Abr2026",
+      "orador": "Allan",
+      "tema": "Por que mostrar amor abnegado?",
+      "themeNum": 7,
+      "congr": "JD Monções  ipero sp",
+      "presidente": "Valdir",
+      "leitor": "Leonardo",
+      "phone": "",
+      "notes": ""
+    },
+    {
+      "date": "2026-04-12",
+      "rawDate": "12 Abril 2026",
+      "sheet": "Abr2026",
+      "orador": "Fabio Pessoa",
+      "tema": "Princípios bíblicos — Podem nos ajudar a lidar com os problemas atuais?",
+      "themeNum": 76,
+      "congr": "Maria Eugênia",
+      "presidente": "Micael",
+      "leitor": "Eduardo",
+      "phone": "(15) 99691-6943",
+      "notes": ""
+    },
+    {
+      "date": "2026-04-19",
+      "rawDate": "Dom 19 Abril 2026",
+      "sheet": "Abr2026",
+      "orador": "Paulo Nine",
+      "tema": "Faça de Jeová Sua Fortaleza",
+      "themeNum": 18,
+      "congr": "Verde Vale",
+      "presidente": "Paulo",
+      "leitor": "Silvano",
+      "phone": "(15) 99727-0720",
+      "notes": ""
+    },
+    {
+      "date": "2026-04-26",
+      "rawDate": "Dom 26 Abril 2026",
+      "sheet": "Abr2026",
+      "orador": "Rogério Gaspar",
+      "tema": "Como Melhorar a Comunicação Na Família",
+      "themeNum": 41,
+      "congr": "Maria Eugênia",
+      "presidente": "Leonardo",
+      "leitor": "José C",
+      "phone": "",
+      "notes": ""
+    },
+    {
+      "date": "2026-05-03",
+      "rawDate": "Dom 03/Maio/2026",
+      "sheet": "Mai2026",
+      "orador": "Marcos Rodrigo",
+      "tema": "Que provas temos que Deus existe?",
+      "themeNum": 4,
+      "congr": "local",
+      "presidente": "Agenor",
+      "leitor": "Matheus",
+      "phone": "",
+      "notes": "Local AC"
+    },
+    {
+      "date": "2026-05-10",
+      "rawDate": "Dom /10 Maio/ 2026",
+      "sheet": "Mai2026",
+      "orador": "Juliano Oliveira",
+      "tema": "Apreço Pelas Maravilhas Da Criação De Deus",
+      "themeNum": 114,
+      "congr": "LS  Tatuí",
+      "presidente": "Leonardo",
+      "leitor": "Igor",
+      "phone": "",
+      "notes": "comunnter"
+    },
+    {
+      "date": "2026-05-17",
+      "rawDate": "Dom/ 17 Maio/2026",
+      "sheet": "Mai2026",
+      "orador": "CLAITON KOMATSU",
+      "tema": "VOCÊ TEM CONCIENCIA DA SUA NECESSIDADE ESPIRITUAL ?",
+      "themeNum": 23,
+      "congr": "TERRA NOVA SOROCABA",
+      "presidente": "Alfredo",
+      "leitor": "Marcos",
+      "phone": "",
+      "notes": "Local SM"
+    },
+    {
+      "date": "2026-05-24",
+      "rawDate": "Dom/24 Maio /2026",
+      "sheet": "Mai2026",
+      "orador": "MIKAEL",
+      "tema": "FIQUE PARADO E VEJA A SALVAÇÃO DA PARTE DE JEOVÁ",
+      "themeNum": 41,
+      "congr": "George Oetterer",
+      "presidente": "Nilson",
+      "leitor": "Israel",
+      "phone": "",
+      "notes": "Local SM"
+    },
+    {
+      "date": "2026-05-31",
+      "rawDate": "DOM/ 31 Maio/ 2026",
+      "sheet": "Mai2026",
+      "orador": "EDSON CAU",
+      "tema": "QUAL É A SUA RELAÇÃO COM DEUS ?",
+      "themeNum": 2,
+      "congr": "CONG VILMA AMORIM DE VOTORANTIM",
+      "presidente": "JOSÉ CRUZ",
+      "leitor": "AKILA",
+      "phone": "",
+      "notes": ""
+    },
+    {
+      "date": "2026-06-07",
+      "rawDate": "Dom 7 JUN 2026",
+      "sheet": "Jun2026",
+      "orador": "VITOR SANTOS",
+      "tema": "Rejeite as fantasias do mundo, empenhe se pelas realidades do Reino",
+      "themeNum": 114,
+      "congr": "Tropical  -Sorocaba",
+      "presidente": "Vanderlei",
+      "leitor": "Leonardo",
+      "phone": "",
+      "notes": ""
+    },
+    {
+      "date": "2026-06-14",
+      "rawDate": "Dom 14 JUN 2026",
+      "sheet": "Jun2026",
+      "orador": "MARCOS CAMILO",
+      "tema": "Quem se salvará?",
+      "themeNum": 126,
+      "congr": "Júlio De Mesquita",
+      "presidente": "Ribamar",
+      "leitor": "Antony",
+      "phone": "(15) 99719-9895",
+      "notes": ""
+    },
+    {
+      "date": "2026-06-21",
+      "rawDate": "Dom 21 JUN 2026",
+      "sheet": "Jun2026",
+      "orador": "Sandro Santos",
+      "tema": "Por que refugiar-se em Jeová",
+      "themeNum": null,
+      "congr": "Central Cabreuva",
+      "presidente": "Silvano",
+      "leitor": "Rodrigo",
+      "phone": "",
+      "notes": ""
+    },
+    {
+      "date": "2026-06-28",
+      "rawDate": "Dom 28 JUN 2026",
+      "sheet": "Jun2026",
+      "orador": "JOSÉ CRUZ",
+      "tema": "Faça o bem a todos",
+      "themeNum": 15,
+      "congr": "George Oeterer  Iperó",
+      "presidente": "Eduardo",
+      "leitor": "Akila",
+      "phone": "",
+      "notes": "local SM"
+    },
+    {
+      "date": "2026-07-05",
+      "rawDate": "05/JILHO 2026",
+      "sheet": "Julho2026",
+      "orador": "SÉRGIO SANTOS",
+      "tema": "Jeová é “uma altura protetora” para seu povo",
+      "themeNum": 151,
+      "congr": "Jardim das Magnólias-Sorocaba",
+      "presidente": "Paulo",
+      "leitor": "Israel",
+      "phone": "15 98148-0022",
+      "notes": ""
+    },
+    {
+      "date": "2026-07-12",
+      "rawDate": "12/ JULHO 2026",
+      "sheet": "Julho2026",
+      "orador": "MAURÍCIO CORREIA",
+      "tema": "‘Mantenha-se desperto’ — Por que e como?",
+      "themeNum": 71,
+      "congr": "Jardin Novo Mundo- Sorocaba",
+      "presidente": "Valdir",
+      "leitor": "José Cruz",
+      "phone": "11 97663-1618",
+      "notes": ""
+    },
+    {
+      "date": "2026-07-19",
+      "rawDate": "19/JULHO 2026",
+      "sheet": "Julho2026",
+      "orador": "SERGIO CARDOSO",
+      "tema": "Como Mostra Amor em um Mundo Egoísta",
+      "themeNum": 160,
+      "congr": "Parque Manchester :Sorocaba.",
+      "presidente": "Mikael",
+      "leitor": "Marcos",
+      "phone": "",
+      "notes": ""
+    },
+    {
+      "date": "2026-07-26",
+      "rawDate": "26/JULHO 2026",
+      "sheet": "Julho2026",
+      "orador": "SÉRGIO GONZALES",
+      "tema": "Mantenha a identidade cristã",
+      "themeNum": 160,
+      "congr": "Iguatemi - Sorocaba",
+      "presidente": "Rodrigo",
+      "leitor": "Leonardo",
+      "phone": "15 98132-4061",
+      "notes": ""
+    },
+    {
+      "date": "2026-08-02",
+      "rawDate": "02/Agosto/2026",
+      "sheet": "AGOSTO2026",
+      "orador": "Allan Rodrigues",
+      "tema": "Por que um Deus amoroso permite a maldade?",
+      "themeNum": 187,
+      "congr": "Terra Nova",
+      "presidente": "Nilson",
+      "leitor": "Eduardo",
+      "phone": "11 97179-8533",
+      "notes": ""
+    },
+    {
+      "date": "2026-08-09",
+      "rawDate": "09/Agosto 2026",
+      "sheet": "AGOSTO2026",
+      "orador": "Luiz Fernando",
+      "tema": "Você pode ter uma família feliz!",
+      "themeNum": null,
+      "congr": "Belo Horizonte Itapetininga,",
+      "presidente": "Mikael",
+      "leitor": "Silvano",
+      "phone": "",
+      "notes": ""
+    },
+    {
+      "date": "2026-08-16",
+      "rawDate": "16/AGOSTO 2026",
+      "sheet": "AGOSTO2026",
+      "orador": "CONGRESSO REGIONAL",
+      "tema": "FELICIDADE ETERNA",
+      "themeNum": null,
+      "congr": "SP 101",
+      "presidente": "",
+      "leitor": "",
+      "phone": "",
+      "notes": ""
+    },
+    {
+      "date": "2026-09-06",
+      "rawDate": "06/SETEMBRO /2026",
+      "sheet": "SETEMBRO2026",
+      "orador": "SERGIO GONZÁLEZ",
+      "tema": "MANTENHA A INDENTIDADE CRISTÃ !",
+      "themeNum": 160,
+      "congr": "IGUATEMI SOROCABA",
+      "presidente": "Igor",
+      "leitor": "Silvano",
+      "phone": "15 98132-4061",
+      "notes": ""
+    },
+    {
+      "date": "2026-09-13",
+      "rawDate": "2026-09-13 00:00:00",
+      "sheet": "SETEMBRO2026",
+      "orador": "ALAN OLIVEIRA",
+      "tema": "PORQUE MOSTRAR AMOR ABNEGADO ?",
+      "themeNum": null,
+      "congr": "CONGREGAÇÃO JARDIM MONÇÕES",
+      "presidente": "Alfredo",
+      "leitor": "José Cruz",
+      "phone": "",
+      "notes": ""
+    },
+    {
+      "date": "2026-09-20",
+      "rawDate": "2026-09-20 00:00:00",
+      "sheet": "SETEMBRO2026",
+      "orador": "MARCELO ALVES",
+      "tema": "SIRVA A JEOVÁ COM UM CORAÇÃO ALEGRE",
+      "themeNum": null,
+      "congr": "PARQUE ESMERALDA SOROCABA",
+      "presidente": "Vanderlei",
+      "leitor": "Igor",
+      "phone": "",
+      "notes": ""
+    },
+    {
+      "date": "2026-09-27",
+      "rawDate": "2026-09-27 00:00:00",
+      "sheet": "SETEMBRO2026",
+      "orador": "EDUARDO JUNIOR",
+      "tema": "COMO A BÍBLIA PODE AJUDAR VOCÊ ?",
+      "themeNum": null,
+      "congr": "GEORGE OETERER",
+      "presidente": "Rodrigo",
+      "leitor": "Leonardo",
+      "phone": "",
+      "notes": ""
+    },
+    {
+      "date": "",
+      "rawDate": "4 OUTUBRO",
+      "sheet": "OUTUBRO2026",
+      "orador": "ANTÔNIO ALVANO",
+      "tema": "ESCUTE E FAÇA O QUE A BÍBLIA DIZ",
+      "themeNum": null,
+      "congr": "SEAGESPE SOROCABA",
+      "presidente": "Silvano",
+      "leitor": "Antony",
+      "phone": "",
+      "notes": ""
+    },
+    {
+      "date": "",
+      "rawDate": "11 OUTUBRO",
+      "sheet": "OUTUBRO2026",
+      "orador": "MARCO SILVA",
+      "tema": "VIVA COM BOM JUÍZO NUM MUNDO PERVERTIDO",
+      "themeNum": null,
+      "congr": "JARDIM CASA BRANCA SOROCABA",
+      "presidente": "Leonardo",
+      "leitor": "Marcos",
+      "phone": "",
+      "notes": ""
+    },
+    {
+      "date": "",
+      "rawDate": "18 OUTUBRO",
+      "sheet": "OUTUBRO2026",
+      "orador": "HAMILTON SALINO",
+      "tema": "FORTALEÇA SUA CONFIANÇA EM JEOVÁ",
+      "themeNum": null,
+      "congr": "ARAÇOIABINHA ARAÇOIBA DA SERRA",
+      "presidente": "José Cruz",
+      "leitor": "Matheus",
+      "phone": "",
+      "notes": ""
+    },
+    {
+      "date": "",
+      "rawDate": "25 OUTUBRO",
+      "sheet": "OUTUBRO2026",
+      "orador": "FABIO PESSOA",
+      "tema": "PRINCÍPIOS BÍBLICOS PODE NOS AJUDAR",
+      "themeNum": null,
+      "congr": "MARIA EUGÊNIA SOROCABA",
+      "presidente": "Rodrigo",
+      "leitor": "Eduardo",
+      "phone": "",
+      "notes": ""
+    },
+    {
+      "date": "",
+      "rawDate": "1  NOVEMBRO",
+      "sheet": "NOVEMBRO2026",
+      "orador": "ANTÔNIO PROENÇA",
+      "tema": "DESVIE SEUS OLHOS DO QUE É FÚTIL",
+      "themeNum": null,
+      "congr": "NORTE DE SOROCABA",
+      "presidente": "Igor",
+      "leitor": "Matheus",
+      "phone": "",
+      "notes": ""
+    },
+    {
+      "date": "",
+      "rawDate": "8  NOVEMBRO",
+      "sheet": "NOVEMBRO2026",
+      "orador": "PETERSON RODRIGUES",
+      "tema": "FORTALEÇA SUA CONFIANÇA EM JEOVÁ",
+      "themeNum": null,
+      "congr": "VILA BARÃO SOROCABA",
+      "presidente": "Alfredo",
+      "leitor": "Akylla",
+      "phone": "",
+      "notes": ""
+    },
+    {
+      "date": "",
+      "rawDate": "15  NOVEMBRO",
+      "sheet": "NOVEMBRO2026",
+      "orador": "JULIO ALVES",
+      "tema": "ONDE ENCONTRAR AJUDA EM TEMPOS DE AFLIÇÃO",
+      "themeNum": null,
+      "congr": "CENTRAL PARK SOROCABA",
+      "presidente": "Agenor",
+      "leitor": "Silvano",
+      "phone": "",
+      "notes": ""
+    },
+    {
+      "date": "",
+      "rawDate": "22 NOVEMBRO",
+      "sheet": "NOVEMBRO2026",
+      "orador": "MATHEUS SOARES",
+      "tema": "MEDITE NA BÍBLIA E NAS CRIAÇÕES DE JEOVÁ",
+      "themeNum": null,
+      "congr": "JARDIM EUROPA",
+      "presidente": "Nilson",
+      "leitor": "José Cruz",
+      "phone": "",
+      "notes": ""
+    },
+    {
+      "date": "",
+      "rawDate": "29 NOVEMBRO",
+      "sheet": "NOVEMBRO2026",
+      "orador": "ISMAEL GONÇALVES",
+      "tema": "VERDADEIRA FÉ - O QUE É E COMO MOSTRAR",
+      "themeNum": null,
+      "congr": "REAL PARQUE VOTORANTIM",
+      "presidente": "Nilson",
+      "leitor": "José Cruz",
+      "phone": "",
+      "notes": ""
+    }
+  ],
+  "leitores": [
+    "Marcos Oliveira",
+    "⁠Israel Mello",
+    "⁠Thiago Derio",
+    "Matheus Oliveira",
+    "⁠Daniel Siqueira",
+    "César Lima",
+    "Antonny Dério",
+    "Aklla Dério"
+  ],
+  "presidentes_ancios": [
+    "Pulo",
+    "Nilson",
+    "Silvano",
+    "Igor",
+    "Eduardo",
+    "Anderson",
+    "Rodrigo s",
+    "Micael"
+  ],
+  "presidentes_servos": [
+    "Alfredo",
+    "Valdir",
+    "Micael",
+    "Vanderlei",
+    "Agenor",
+    "Ribamar?"
+  ],
+  "oradores_locais": [
+    {
+      "name": "Silvano",
+      "temas": "170, 178, 189, 16, 9, 3"
+    },
+    {
+      "name": "Anderson",
+      "temas": "3,6,7,41,63,191"
+    },
+    {
+      "name": "Rodrigo",
+      "temas": ""
+    },
+    {
+      "name": "Jose Cruz",
+      "temas": ""
+    },
+    {
+      "name": "Igor",
+      "temas": ""
+    },
+    {
+      "name": "Paulo",
+      "temas": ""
+    },
+    {
+      "name": "Eduardo Jr",
+      "temas": ""
+    },
+    {
+      "name": "Nilson",
+      "temas": ""
+    },
+    {
+      "name": "Leonardo",
+      "temas": ""
+    }
+  ],
+  "speakers": [
+    {
+      "name": "Vanil Martins aguardando....",
+      "phone": ""
+    },
+    {
+      "name": "Elias  Nvarro",
+      "phone": "(15) 97404-9384"
+    },
+    {
+      "name": "Julio",
+      "phone": "(15) 99101-5346"
+    },
+    {
+      "name": "Thiago Games",
+      "phone": "(15) 98816-1957"
+    },
+    {
+      "name": "Renato Nine",
+      "phone": "(15) 99694-1906"
+    },
+    {
+      "name": "Ivo Fracasso Pará",
+      "phone": "(11) 97455-2323"
+    },
+    {
+      "name": "Eduardo jr",
+      "phone": ""
+    },
+    {
+      "name": "Reiniao especial",
+      "phone": "(15) 97400-1033"
+    },
+    {
+      "name": "Jhonatas Pedroso",
+      "phone": ""
+    },
+    {
+      "name": "Bruno",
+      "phone": "(15) 97602-0067"
+    },
+    {
+      "name": "Silvano Passos",
+      "phone": "(15) 99805-9176"
+    },
+    {
+      "name": "ÉLCIO BORGES",
+      "phone": ""
+    },
+    {
+      "name": "Allan",
+      "phone": ""
+    },
+    {
+      "name": "Fabio Pessoa",
+      "phone": "(15) 99691-6943"
+    },
+    {
+      "name": "Paulo Nine",
+      "phone": "(15) 99727-0720"
+    },
+    {
+      "name": "Rogério Gaspar",
+      "phone": ""
+    },
+    {
+      "name": "Marcos Rodrigo",
+      "phone": ""
+    },
+    {
+      "name": "Juliano Oliveira",
+      "phone": ""
+    },
+    {
+      "name": "CLAITON KOMATSU",
+      "phone": ""
+    },
+    {
+      "name": "MIKAEL",
+      "phone": ""
+    },
+    {
+      "name": "EDSON CAU",
+      "phone": ""
+    },
+    {
+      "name": "VITOR SANTOS",
+      "phone": ""
+    },
+    {
+      "name": "MARCOS CAMILO",
+      "phone": "(15) 99719-9895"
+    },
+    {
+      "name": "Sandro Santos",
+      "phone": ""
+    },
+    {
+      "name": "JOSÉ CRUZ",
+      "phone": ""
+    },
+    {
+      "name": "SÉRGIO SANTOS",
+      "phone": "15 98148-0022"
+    },
+    {
+      "name": "MAURÍCIO CORREIA",
+      "phone": "11 97663-1618"
+    },
+    {
+      "name": "SERGIO CARDOSO",
+      "phone": ""
+    },
+    {
+      "name": "SÉRGIO GONZALES",
+      "phone": "15 98132-4061"
+    },
+    {
+      "name": "Allan Rodrigues",
+      "phone": "11 97179-8533"
+    },
+    {
+      "name": "Luiz Fernando",
+      "phone": ""
+    },
+    {
+      "name": "CONGRESSO REGIONAL",
+      "phone": ""
+    },
+    {
+      "name": "SERGIO GONZÁLEZ",
+      "phone": "15 98132-4061"
+    },
+    {
+      "name": "ALAN OLIVEIRA",
+      "phone": ""
+    },
+    {
+      "name": "MARCELO ALVES",
+      "phone": ""
+    },
+    {
+      "name": "EDUARDO JUNIOR",
+      "phone": ""
+    },
+    {
+      "name": "ANTÔNIO ALVANO",
+      "phone": ""
+    },
+    {
+      "name": "MARCO SILVA",
+      "phone": ""
+    },
+    {
+      "name": "HAMILTON SALINO",
+      "phone": ""
+    },
+    {
+      "name": "ANTÔNIO PROENÇA",
+      "phone": ""
+    },
+    {
+      "name": "PETERSON RODRIGUES",
+      "phone": ""
+    },
+    {
+      "name": "JULIO ALVES",
+      "phone": ""
+    },
+    {
+      "name": "MATHEUS SOARES",
+      "phone": ""
+    },
+    {
+      "name": "ISMAEL GONÇALVES",
+      "phone": ""
+    }
+  ],
+  "congregations": [
+    {
+      "name": "Julio de Mesquita"
+    },
+    {
+      "name": "Jardim Monções"
+    },
+    {
+      "name": "Jardim Monçoes"
+    },
+    {
+      "name": "Júlio de Mesquita"
+    },
+    {
+      "name": "Verde Vale"
+    },
+    {
+      "name": "circuito sup."
+    },
+    {
+      "name": "Local"
+    },
+    {
+      "name": "tropical"
+    },
+    {
+      "name": "Maria Eugênia"
+    },
+    {
+      "name": "George Oeterer"
+    },
+    {
+      "name": "Central"
+    },
+    {
+      "name": "JD Monções  ipero sp"
+    },
+    {
+      "name": "LS  Tatuí"
+    },
+    {
+      "name": "TERRA NOVA SOROCABA"
+    },
+    {
+      "name": "George Oetterer"
+    },
+    {
+      "name": "CONG VILMA AMORIM DE VOTORANTIM"
+    },
+    {
+      "name": "Tropical  -Sorocaba"
+    },
+    {
+      "name": "Central Cabreuva"
+    },
+    {
+      "name": "George Oeterer  Iperó"
+    },
+    {
+      "name": "Jardim das Magnólias-Sorocaba"
+    },
+    {
+      "name": "Jardin Novo Mundo- Sorocaba"
+    },
+    {
+      "name": "Parque Manchester :Sorocaba."
+    },
+    {
+      "name": "Iguatemi - Sorocaba"
+    },
+    {
+      "name": "Terra Nova"
+    },
+    {
+      "name": "Belo Horizonte Itapetininga,"
+    },
+    {
+      "name": "SP 101"
+    },
+    {
+      "name": "IGUATEMI SOROCABA"
+    },
+    {
+      "name": "CONGREGAÇÃO JARDIM MONÇÕES"
+    },
+    {
+      "name": "PARQUE ESMERALDA SOROCABA"
+    },
+    {
+      "name": "SEAGESPE SOROCABA"
+    },
+    {
+      "name": "JARDIM CASA BRANCA SOROCABA"
+    },
+    {
+      "name": "ARAÇOIABINHA ARAÇOIBA DA SERRA"
+    },
+    {
+      "name": "MARIA EUGÊNIA SOROCABA"
+    },
+    {
+      "name": "NORTE DE SOROCABA"
+    },
+    {
+      "name": "VILA BARÃO SOROCABA"
+    },
+    {
+      "name": "CENTRAL PARK SOROCABA"
+    },
+    {
+      "name": "JARDIM EUROPA"
+    },
+    {
+      "name": "REAL PARQUE VOTORANTIM"
+    }
+  ]
+}
