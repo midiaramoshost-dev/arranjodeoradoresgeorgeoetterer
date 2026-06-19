@@ -25,7 +25,7 @@ export type MasterDB = {
   leitores: Person[];
 };
 
-const KEY = "arranjo_master_v3";
+const KEY = "arranjo_master_v4";
 const rid = () => Math.random().toString(36).slice(2, 10);
 
 function seed(): MasterDB {
