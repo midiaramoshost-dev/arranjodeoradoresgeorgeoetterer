@@ -109,10 +109,12 @@ export const master = {
   reset() {
     setMaster(() => seed());
   },
-  add<K extends ListKey>(key: K, item: Omit<MasterDB[K][number], "id">) {
+  add<K extends ListKey>(key: K, item: Omit<MasterDB[K][number], "id">): string {
+    const id = rid();
     setMaster(
-      (d) => ({ ...d, [key]: [...(d[key] as any[]), { ...(item as any), id: rid() }] }) as MasterDB,
+      (d) => ({ ...d, [key]: [{ ...(item as any), id }, ...(d[key] as any[])] }) as MasterDB,
     );
+    return id;
   },
   update<K extends ListKey>(key: K, id: string, patch: Partial<MasterDB[K][number]>) {
     setMaster(
@@ -129,6 +131,23 @@ export const master = {
     );
   },
 };
+
+// ---- Search helpers ----
+export function norm(s: any): string {
+  return String(s ?? "")
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "");
+}
+export function tokens(q: string): string[] {
+  return norm(q).split(/\s+/).filter(Boolean);
+}
+export function smartMatch(q: string, ...fields: any[]): boolean {
+  const toks = tokens(q);
+  if (!toks.length) return true;
+  const hay = fields.map(norm).join(" \u0001 ");
+  return toks.every((t) => hay.includes(t));
+}
 
 // ---- Export helpers ----
 export function toCSV(rows: Record<string, any>[], columns: { key: string; label: string }[]): string {
