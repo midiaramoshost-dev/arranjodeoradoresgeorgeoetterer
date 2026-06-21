@@ -109,10 +109,12 @@ export const master = {
   reset() {
     setMaster(() => seed());
   },
-  add<K extends ListKey>(key: K, item: Omit<MasterDB[K][number], "id">) {
+  add<K extends ListKey>(key: K, item: Omit<MasterDB[K][number], "id">): string {
+    const id = rid();
     setMaster(
-      (d) => ({ ...d, [key]: [...(d[key] as any[]), { ...(item as any), id: rid() }] }) as MasterDB,
+      (d) => ({ ...d, [key]: [{ ...(item as any), id }, ...(d[key] as any[])] }) as MasterDB,
     );
+    return id;
   },
   update<K extends ListKey>(key: K, id: string, patch: Partial<MasterDB[K][number]>) {
     setMaster(
@@ -129,6 +131,23 @@ export const master = {
     );
   },
 };
+
+// ---- Search helpers ----
+export function norm(s: any): string {
+  return String(s ?? "")
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "");
+}
+export function tokens(q: string): string[] {
+  return norm(q).split(/\s+/).filter(Boolean);
+}
+export function smartMatch(q: string, ...fields: any[]): boolean {
+  const toks = tokens(q);
+  if (!toks.length) return true;
+  const hay = fields.map(norm).join(" \u0001 ");
+  return toks.every((t) => hay.includes(t));
+}
 
 // ---- Export helpers ----
 export function toCSV(rows: Record<string, any>[], columns: { key: string; label: string }[]): string {
@@ -154,22 +173,24 @@ export function downloadCSV(filename: string, csv: string) {
 }
 
 export function printHTML(title: string, bodyHTML: string) {
-  const w = window.open("", "_blank", "width=900,height=700");
+  const w = window.open("", "_blank", "width=1100,height=800");
   if (!w) return;
   w.document.write(`<!doctype html><html><head><meta charset="utf-8"><title>${title}</title>
   <style>
-    body{font-family:system-ui,-apple-system,sans-serif;padding:20px;color:#111}
-    h1{font-size:18px;margin:0 0 12px}
-    h2{font-size:14px;margin:18px 0 6px;border-bottom:1px solid #ccc;padding-bottom:4px}
-    table{width:100%;border-collapse:collapse;font-size:12px;margin-bottom:12px}
-    th,td{border:1px solid #999;padding:6px 8px;text-align:left;vertical-align:top}
-    th{background:#f0f0f0}
-    .card{border:1px solid #999;border-radius:6px;padding:10px;margin-bottom:10px;page-break-inside:avoid}
-    .card .row{display:flex;gap:8px;font-size:12px;margin:2px 0}
-    .card .row b{min-width:90px;display:inline-block}
-    @media print{ button{display:none} }
+    @page { size: A4 landscape; margin: 10mm }
+    *{box-sizing:border-box}
+    body{font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;padding:14px;color:#111}
+    h1{font-size:18px;margin:0 0 10px;text-align:center}
+    h2{font-size:13px;margin:14px 0 6px;background:#222;color:#fff;padding:4px 8px;border-radius:3px}
+    table{width:100%;border-collapse:collapse;font-size:11px;margin-bottom:10px;table-layout:fixed}
+    th,td{border:1px solid #444;padding:4px 6px;text-align:left;vertical-align:top;word-wrap:break-word;overflow-wrap:break-word}
+    th{background:#e8e8e8;font-weight:600;font-size:11px}
+    tr:nth-child(even) td{background:#fafafa}
+    .toolbar{margin-bottom:10px;text-align:center}
+    .toolbar button{padding:8px 16px;cursor:pointer;font-size:13px;background:#0066cc;color:#fff;border:none;border-radius:4px;margin:0 4px}
+    @media print{ .toolbar{display:none} h2{background:#222 !important;-webkit-print-color-adjust:exact;print-color-adjust:exact} tr:nth-child(even) td{background:#fafafa !important;-webkit-print-color-adjust:exact;print-color-adjust:exact} th{background:#e8e8e8 !important;-webkit-print-color-adjust:exact;print-color-adjust:exact} table{page-break-inside:auto} tr{page-break-inside:avoid} h2{page-break-after:avoid} }
   </style></head><body>
-  <button onclick="window.print()" style="padding:6px 12px;margin-bottom:10px;cursor:pointer">Imprimir</button>
+  <div class="toolbar"><button onclick="window.print()">Imprimir / Salvar PDF</button><button onclick="window.close()">Fechar</button></div>
   <h1>${title}</h1>
   ${bodyHTML}
   </body></html>`);
