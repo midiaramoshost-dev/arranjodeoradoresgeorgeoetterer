@@ -16,7 +16,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { Card } from "@/components/ui/card";
-import { Download, Printer, Plus, Trash2, RotateCcw, Search, FileSpreadsheet, Eye } from "lucide-react";
+import { Download, Printer, Plus, Trash2, RotateCcw, Search, FileSpreadsheet } from "lucide-react";
 
 export const Route = createFileRoute("/admin/master")({
   component: MasterPanel,
@@ -140,7 +140,7 @@ function previewAgenda(items: AgendaItem[], title: string) {
 
 function exportAgendaXLSX(items: AgendaItem[], filename: string) {
   const sheetData: string[][] = [];
-  const merges: XLSX.Range[] = [];
+  const merges: { s: { r: number; c: number }; e: { r: number; c: number } }[] = [];
   const headerRows = new Set<number>();
   const highlightRows = new Set<number>();
   const themeRows = new Set<number>();
@@ -295,7 +295,7 @@ function AgendaTab() {
             {filtered.map((a) => (
               <tbody key={a.id} data-row-id={a.id} className="transition-shadow">
                 <tr>
-                  <td colSpan={2} className={`border border-black px-2 py-0.5 text-center font-bold ${a.obs ? "bg-[#f6a000]" : "bg-[#bfbfbf]"}`}>
+                  <td colSpan={2} className={`border border-black px-2 py-0.5 text-center font-bold ${a.obs ? "bg-amber-500" : "bg-neutral-300"}`}>
                     <InlineCell value={a.data} onChange={(v) => master.update("agenda", a.id, { data: v })} className="font-bold text-center" />
                   </td>
                 </tr>
@@ -303,7 +303,7 @@ function AgendaTab() {
                   const highlighted = Boolean(a.obs && (row.key === "orador" || row.key === "tema" || row.key === "congregacao" || row.key === "presidente" || row.key === "leitor"));
                   return (
                     <tr key={row.key}>
-                      <td className={`border border-black px-2 py-0.5 text-center ${highlighted ? "bg-[#f6a000]" : "bg-card"}`}>
+                      <td className={`border border-black px-2 py-0.5 text-center ${highlighted ? "bg-amber-500" : "bg-card"}`}>
                         {row.key === "leitor" && a.obs ? (
                           <InlineCell value={a.obs} onChange={(v) => master.update("agenda", a.id, { obs: v })} className="text-center" />
                         ) : (
