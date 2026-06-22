@@ -172,9 +172,22 @@ export function downloadCSV(filename: string, csv: string) {
   URL.revokeObjectURL(url);
 }
 
-export function printHTML(title: string, bodyHTML: string) {
+export function printHTML(title: string, bodyHTML: string, mode: "table" | "agenda" = "table") {
   const w = window.open("", "_blank", "width=1100,height=800");
   if (!w) return;
+  const agendaCSS = mode === "agenda" ? `
+    body{font-family:Arial,sans-serif;padding:0;color:#111;background:#fff}
+    h1{display:none}
+    .agenda-model{width:100%;border-collapse:collapse;font-size:12px;margin:0;table-layout:fixed}
+    .agenda-model th,.agenda-model td{border:1px solid #000;padding:2px 6px;text-align:center;vertical-align:middle;height:20px;line-height:1.15;word-wrap:break-word;overflow-wrap:break-word}
+    .agenda-model .date{background:#bfbfbf;font-weight:700;font-size:12px}
+    .agenda-model .highlight,.agenda-model .date.highlight{background:#f6a000}
+    .agenda-model .label{font-weight:400}
+    .agenda-model .theme{font-weight:700}
+    .toolbar{margin:10px;text-align:center}
+    .toolbar button{padding:8px 16px;cursor:pointer;font-size:13px;background:#0066cc;color:#fff;border:none;border-radius:4px;margin:0 4px}
+    @media print{ @page{size:A4 portrait;margin:5mm} .toolbar{display:none} .agenda-model .date{background:#bfbfbf !important}.agenda-model .highlight,.agenda-model .date.highlight{background:#f6a000 !important} *{-webkit-print-color-adjust:exact;print-color-adjust:exact} }
+  ` : "";
   w.document.write(`<!doctype html><html><head><meta charset="utf-8"><title>${title}</title>
   <style>
     @page { size: A4 landscape; margin: 10mm }
@@ -189,6 +202,7 @@ export function printHTML(title: string, bodyHTML: string) {
     .toolbar{margin-bottom:10px;text-align:center}
     .toolbar button{padding:8px 16px;cursor:pointer;font-size:13px;background:#0066cc;color:#fff;border:none;border-radius:4px;margin:0 4px}
     @media print{ .toolbar{display:none} h2{background:#222 !important;-webkit-print-color-adjust:exact;print-color-adjust:exact} tr:nth-child(even) td{background:#fafafa !important;-webkit-print-color-adjust:exact;print-color-adjust:exact} th{background:#e8e8e8 !important;-webkit-print-color-adjust:exact;print-color-adjust:exact} table{page-break-inside:auto} tr{page-break-inside:avoid} h2{page-break-after:avoid} }
+    ${agendaCSS}
   </style></head><body>
   <div class="toolbar"><button onclick="window.print()">Imprimir / Salvar PDF</button><button onclick="window.close()">Fechar</button></div>
   <h1>${title}</h1>
