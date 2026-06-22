@@ -1,5 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useMemo, useRef, useState } from "react";
+import * as XLSX from "xlsx-js-style";
 import {
   useMaster,
   master,
@@ -15,7 +16,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { Card } from "@/components/ui/card";
-import { Download, Printer, Plus, Trash2, RotateCcw, Search } from "lucide-react";
+import { Download, Printer, Plus, Trash2, RotateCcw, Search, FileSpreadsheet, Eye } from "lucide-react";
 
 export const Route = createFileRoute("/admin/master")({
   component: MasterPanel,
@@ -89,19 +90,127 @@ function MasterPanel() {
 }
 
 /* ----------------- AGENDA ----------------- */
+const agendaRows = [
+  { key: "orador", label: "ORADOR" },
+  { key: "tema", label: "TEMA" },
+  { key: "congregacao", label: "CONGR" },
+  { key: "presidente", label: "PRESIDENTE" },
+  { key: "leitor", label: "LEITOR W" },
+] as const;
+
+type AgendaFormat = "sheet" | "cards";
+
+function agendaLabelFor(row: (typeof agendaRows)[number], item: AgendaItem) {
+  return row.key === "leitor" && item.obs ? item.obs : row.label;
+}
+
+function agendaValueFor(row: (typeof agendaRows)[number], item: AgendaItem) {
+  return item[row.key] || "";
+}
+
+function monthKeyFromItem(item: AgendaItem) {
+  return item.mes || "Sem mês";
+}
+
+function normalizeMonthLabel(label: string) {
+  return label.trim().replace(/\s+/g, " ");
+}
+
+function buildAgendaPrintHTML(items: AgendaItem[]) {
+  const rows = items
+    .map((item) => {
+      const body = agendaRows
+        .map((row) => {
+          const highlighted = Boolean(item.obs && (row.key === "orador" || row.key === "tema" || row.key === "congregacao" || row.key === "presidente" || row.key === "leitor"));
+          const label = escapeHTML(agendaLabelFor(row, item));
+          const value = escapeHTML(agendaValueFor(row, item));
+          return `<tr class="${highlighted ? "highlight" : ""}"><td class="label">${label}</td><td class="value ${row.key === "tema" ? "theme" : ""}">${value}</td></tr>`;
+        })
+        .join("");
+      return `<tbody class="date-block"><tr><th colspan="2" class="date ${item.obs ? "highlight" : ""}">${escapeHTML(item.data)}</th></tr>${body}</tbody>`;
+    })
+    .join("");
+
+  return `<table class="agenda-model"><colgroup><col style="width:22%"><col style="width:78%"></colgroup>${rows}</table>`;
+}
+
+function previewAgenda(items: AgendaItem[], title: string) {
+  printHTML(title, buildAgendaPrintHTML(items), "agenda");
+}
+
+function exportAgendaXLSX(items: AgendaItem[], filename: string) {
+  const sheetData: string[][] = [];
+  const merges: XLSX.Range[] = [];
+  const headerRows = new Set<number>();
+  const highlightRows = new Set<number>();
+  const themeRows = new Set<number>();
+
+  items.forEach((item) => {
+    const headerIndex = sheetData.length;
+    sheetData.push([item.data, ""]);
+    merges.push({ s: { r: headerIndex, c: 0 }, e: { r: headerIndex, c: 1 } });
+    headerRows.add(headerIndex);
+    if (item.obs) highlightRows.add(headerIndex);
+
+    agendaRows.forEach((row) => {
+      const rowIndex = sheetData.length;
+      sheetData.push([agendaLabelFor(row, item), agendaValueFor(row, item)]);
+      if (item.obs) highlightRows.add(rowIndex);
+      if (row.key === "tema") themeRows.add(rowIndex);
+    });
+  });
+
+  const ws = XLSX.utils.aoa_to_sheet(sheetData);
+  ws["!merges"] = merges;
+  ws["!cols"] = [{ wch: 22 }, { wch: 70 }];
+  ws["!rows"] = sheetData.map((_, i) => ({ hpt: headerRows.has(i) ? 18 : 16 }));
+  ws["!margins"] = { left: 0.2, right: 0.2, top: 0.25, bottom: 0.25, header: 0.1, footer: 0.1 };
+
+  const range = XLSX.utils.decode_range(ws["!ref"] || "A1:B1");
+  for (let r = range.s.r; r <= range.e.r; r += 1) {
+    for (let c = range.s.c; c <= range.e.c; c += 1) {
+      const ref = XLSX.utils.encode_cell({ r, c });
+      if (!ws[ref]) ws[ref] = { t: "s", v: "" };
+      const isHeader = headerRows.has(r);
+      const isHighlight = highlightRows.has(r);
+      const isTheme = themeRows.has(r);
+      ws[ref].s = {
+        font: { name: "Arial", sz: isHeader ? 10 : 9, bold: isHeader || isTheme },
+        alignment: { horizontal: isHeader || c === 0 ? "center" : "center", vertical: "center", wrapText: true },
+        border: {
+          top: { style: "thin", color: { rgb: "000000" } },
+          bottom: { style: "thin", color: { rgb: "000000" } },
+          left: { style: "thin", color: { rgb: "000000" } },
+          right: { style: "thin", color: { rgb: "000000" } },
+        },
+        fill: isHeader
+          ? { patternType: "solid", fgColor: { rgb: isHighlight ? "F6A000" : "BFBFBF" } }
+          : isHighlight && c === 0
+            ? { patternType: "solid", fgColor: { rgb: "F6A000" } }
+            : undefined,
+      };
+    }
+  }
+
+  const wb = XLSX.utils.book_new();
+  XLSX.utils.book_append_sheet(wb, ws, "Agenda");
+  XLSX.writeFile(wb, filename);
+}
+
 function AgendaTab() {
   const agenda = useMaster((d) => d.agenda);
   const [q, setQ] = useState("");
   const [mes, setMes] = useState<string>("");
+  const [format, setFormat] = useState<AgendaFormat>("sheet");
   const { newId, setNewId, rootRef } = useFlashNew();
 
-  const meses = useMemo(() => Array.from(new Set(agenda.map((a) => a.mes))), [agenda]);
+  const meses = useMemo(() => Array.from(new Set(agenda.map((a) => normalizeMonthLabel(monthKeyFromItem(a))))), [agenda]);
   const filtered = useMemo(
     () =>
       agenda.filter(
         (a) =>
           a.id === newId ||
-          ((!mes || a.mes === mes) &&
+          ((!mes || normalizeMonthLabel(monthKeyFromItem(a)) === mes) &&
             smartMatch(q, a.data, a.orador, a.tema, a.temaNum, a.congregacao, a.presidente, a.leitor, a.telefone, a.obs, a.mes)),
       ),
     [agenda, q, mes, newId],
@@ -119,46 +228,10 @@ function AgendaTab() {
     { key: "obs", label: "Obs" },
   ];
 
-  const doPrint = () => {
-    const byMes = filtered.reduce<Record<string, AgendaItem[]>>((acc, a) => {
-      (acc[a.mes || "Sem mês"] ||= []).push(a);
-      return acc;
-    }, {});
-    const html = Object.entries(byMes)
-      .map(([m, items]) => {
-        const rows = items
-          .map(
-            (a) => `<tr>
-              <td>${escapeHTML(a.data)}</td>
-              <td style="text-align:center">${escapeHTML(a.temaNum)}</td>
-              <td>${escapeHTML(a.tema)}</td>
-              <td>${escapeHTML(a.orador)}</td>
-              <td>${escapeHTML(a.congregacao)}</td>
-              <td>${escapeHTML(a.telefone)}</td>
-              <td>${escapeHTML(a.presidente)}</td>
-              <td>${escapeHTML(a.leitor)}</td>
-              <td>${escapeHTML(a.obs)}</td>
-            </tr>`,
-          )
-          .join("");
-        return `<h2>${escapeHTML(m)}</h2>
-          <table>
-            <colgroup>
-              <col style="width:9%"><col style="width:5%"><col style="width:22%"><col style="width:14%">
-              <col style="width:14%"><col style="width:9%"><col style="width:11%"><col style="width:9%"><col style="width:7%">
-            </colgroup>
-            <thead><tr>${columns.map((c) => `<th>${c.label}</th>`).join("")}</tr></thead>
-            <tbody>${rows}</tbody>
-          </table>`;
-      })
-      .join("");
-    printHTML(`Agenda 2026 ${mes ? "— " + mes : ""}`, html);
-  };
-
   const onAdd = () => {
     setQ("");
     const id = master.add("agenda", {
-      mes: mes || "Janeiro 2026",
+      mes: mes || "Fevereiro 2026",
       data: "",
       orador: "",
       tema: "",
@@ -177,52 +250,122 @@ function AgendaTab() {
       <Toolbar
         q={q}
         setQ={setQ}
-        placeholder="Buscar em data, orador, tema, congregação, presidente, leitor... (várias palavras = AND)"
+        placeholder="Buscar em data, orador, tema, congregação, presidente, leitor..."
         onCSV={() => downloadCSV(`agenda${mes ? "-" + mes : ""}.csv`, toCSV(filtered, [{ key: "mes", label: "Mês" }, ...columns]))}
-        onPrint={doPrint}
+        onPrint={() => previewAgenda(filtered, `Agenda 2026${mes ? " — " + mes : ""}`)}
+        onXLSX={() => exportAgendaXLSX(filtered, `agenda${mes ? "-" + mes : ""}.xlsx`)}
         onAdd={onAdd}
         extra={
-          <select
-            className="h-9 rounded-md border bg-background px-2 text-sm"
-            value={mes}
-            onChange={(e) => setMes(e.target.value)}
-          >
-            <option value="">Todos os meses</option>
-            {meses.map((m) => (
-              <option key={m} value={m}>{m}</option>
-            ))}
-          </select>
+          <>
+            <select
+              className="h-9 rounded-md border bg-background px-2 text-sm"
+              value={mes}
+              onChange={(e) => setMes(e.target.value)}
+            >
+              <option value="">Todos os meses</option>
+              {meses.map((m) => (
+                <option key={m} value={m}>{m}</option>
+              ))}
+            </select>
+            <div className="flex rounded-md border bg-background p-0.5">
+              <button
+                type="button"
+                className={`px-2.5 py-1 text-xs rounded ${format === "sheet" ? "bg-accent font-medium" : "text-muted-foreground"}`}
+                onClick={() => setFormat("sheet")}
+              >
+                Planilha
+              </button>
+              <button
+                type="button"
+                className={`px-2.5 py-1 text-xs rounded ${format === "cards" ? "bg-accent font-medium" : "text-muted-foreground"}`}
+                onClick={() => setFormat("cards")}
+              >
+                Editar
+              </button>
+            </div>
+          </>
         }
       />
       <div className="text-xs text-muted-foreground">{filtered.length} de {agenda.length} designações</div>
-      <div className="grid gap-3">
-        {filtered.map((a) => (
-          <Card key={a.id} data-row-id={a.id} className="p-3 space-y-2 transition-shadow">
-            <div className="grid grid-cols-1 md:grid-cols-4 gap-2">
-              <Field label="Mês" value={a.mes} onChange={(v) => master.update("agenda", a.id, { mes: v })} />
-              <Field label="Data" value={a.data} onChange={(v) => master.update("agenda", a.id, { data: v })} />
-              <Field label="Nº Tema" value={a.temaNum} onChange={(v) => master.update("agenda", a.id, { temaNum: v })} />
-              <Field label="Telefone" value={a.telefone} onChange={(v) => master.update("agenda", a.id, { telefone: v })} />
-              <Field label="Orador" value={a.orador} onChange={(v) => master.update("agenda", a.id, { orador: v })} />
-              <Field label="Tema" value={a.tema} onChange={(v) => master.update("agenda", a.id, { tema: v })} className="md:col-span-3" />
-              <Field label="Congregação" value={a.congregacao} onChange={(v) => master.update("agenda", a.id, { congregacao: v })} />
-              <Field label="Presidente" value={a.presidente} onChange={(v) => master.update("agenda", a.id, { presidente: v })} />
-              <Field label="Leitor" value={a.leitor} onChange={(v) => master.update("agenda", a.id, { leitor: v })} />
-              <Field label="Obs" value={a.obs} onChange={(v) => master.update("agenda", a.id, { obs: v })} />
-            </div>
-            <div className="flex justify-end">
-              <Button size="sm" variant="ghost" onClick={() => {
-                if (confirm("Excluir esta designação?")) master.remove("agenda", a.id);
-              }}>
-                <Trash2 className="w-4 h-4 mr-1" /> Excluir
-              </Button>
-            </div>
-          </Card>
-        ))}
-        {filtered.length === 0 && (
-          <p className="text-sm text-muted-foreground text-center py-6">Nenhum resultado. Limpe a busca ou clique em "Adicionar".</p>
-        )}
-      </div>
+
+      {format === "sheet" ? (
+        <div className="overflow-x-auto rounded-md border bg-card p-2">
+          <table className="w-full min-w-[620px] border-collapse text-[12px] text-foreground">
+            <colgroup><col className="w-[22%]" /><col className="w-[78%]" /></colgroup>
+            {filtered.map((a) => (
+              <tbody key={a.id} data-row-id={a.id} className="transition-shadow">
+                <tr>
+                  <td colSpan={2} className={`border border-black px-2 py-0.5 text-center font-bold ${a.obs ? "bg-[#f6a000]" : "bg-[#bfbfbf]"}`}>
+                    <InlineCell value={a.data} onChange={(v) => master.update("agenda", a.id, { data: v })} className="font-bold text-center" />
+                  </td>
+                </tr>
+                {agendaRows.map((row) => {
+                  const highlighted = Boolean(a.obs && (row.key === "orador" || row.key === "tema" || row.key === "congregacao" || row.key === "presidente" || row.key === "leitor"));
+                  return (
+                    <tr key={row.key}>
+                      <td className={`border border-black px-2 py-0.5 text-center ${highlighted ? "bg-[#f6a000]" : "bg-card"}`}>
+                        {row.key === "leitor" && a.obs ? (
+                          <InlineCell value={a.obs} onChange={(v) => master.update("agenda", a.id, { obs: v })} className="text-center" />
+                        ) : (
+                          agendaLabelFor(row, a)
+                        )}
+                      </td>
+                      <td className={`border border-black px-2 py-0.5 text-center ${row.key === "tema" ? "font-bold" : ""}`}>
+                        <InlineCell
+                          value={agendaValueFor(row, a)}
+                          onChange={(v) => master.update("agenda", a.id, { [row.key]: v } as Partial<AgendaItem>)}
+                          className={row.key === "tema" ? "font-bold text-center" : "text-center"}
+                        />
+                      </td>
+                    </tr>
+                  );
+                })}
+                <tr className="print:hidden">
+                  <td colSpan={2} className="border border-black bg-muted/30 px-2 py-1 text-right">
+                    <Button size="sm" variant="ghost" onClick={() => {
+                      if (confirm("Excluir esta designação?")) master.remove("agenda", a.id);
+                    }}>
+                      <Trash2 className="w-4 h-4 mr-1" /> Excluir
+                    </Button>
+                  </td>
+                </tr>
+              </tbody>
+            ))}
+          </table>
+          {filtered.length === 0 && (
+            <p className="text-sm text-muted-foreground text-center py-6">Nenhum resultado. Limpe a busca ou clique em "Adicionar".</p>
+          )}
+        </div>
+      ) : (
+        <div className="grid gap-3">
+          {filtered.map((a) => (
+            <Card key={a.id} data-row-id={a.id} className="p-3 space-y-2 transition-shadow">
+              <div className="grid grid-cols-1 md:grid-cols-4 gap-2">
+                <Field label="Mês" value={a.mes} onChange={(v) => master.update("agenda", a.id, { mes: v })} />
+                <Field label="Data" value={a.data} onChange={(v) => master.update("agenda", a.id, { data: v })} />
+                <Field label="Nº Tema" value={a.temaNum} onChange={(v) => master.update("agenda", a.id, { temaNum: v })} />
+                <Field label="Telefone" value={a.telefone} onChange={(v) => master.update("agenda", a.id, { telefone: v })} />
+                <Field label="Orador" value={a.orador} onChange={(v) => master.update("agenda", a.id, { orador: v })} />
+                <Field label="Tema" value={a.tema} onChange={(v) => master.update("agenda", a.id, { tema: v })} className="md:col-span-3" />
+                <Field label="Congregação" value={a.congregacao} onChange={(v) => master.update("agenda", a.id, { congregacao: v })} />
+                <Field label="Presidente" value={a.presidente} onChange={(v) => master.update("agenda", a.id, { presidente: v })} />
+                <Field label="Leitor" value={a.leitor} onChange={(v) => master.update("agenda", a.id, { leitor: v })} />
+                <Field label="Discurso final / obs" value={a.obs} onChange={(v) => master.update("agenda", a.id, { obs: v })} />
+              </div>
+              <div className="flex justify-end">
+                <Button size="sm" variant="ghost" onClick={() => {
+                  if (confirm("Excluir esta designação?")) master.remove("agenda", a.id);
+                }}>
+                  <Trash2 className="w-4 h-4 mr-1" /> Excluir
+                </Button>
+              </div>
+            </Card>
+          ))}
+          {filtered.length === 0 && (
+            <p className="text-sm text-muted-foreground text-center py-6">Nenhum resultado. Limpe a busca ou clique em "Adicionar".</p>
+          )}
+        </div>
+      )}
     </div>
   );
 }
@@ -483,6 +626,17 @@ function Section({ title, children }: { title: string; children: React.ReactNode
 }
 
 /* ----------------- shared UI ----------------- */
+
+function InlineCell({ value, onChange, className }: { value: string; onChange: (v: string) => void; className?: string }) {
+  return (
+    <input
+      value={value || ""}
+      onChange={(e) => onChange(e.target.value)}
+      className={`h-5 w-full min-w-0 border-0 bg-transparent p-0 text-[12px] leading-none outline-none focus:bg-background focus:ring-1 focus:ring-ring ${className || ""}`}
+    />
+  );
+}
+
 function Field({
   label,
   value,
@@ -508,6 +662,7 @@ function Toolbar({
   placeholder,
   onCSV,
   onPrint,
+  onXLSX,
   onAdd,
   extra,
 }: {
@@ -516,6 +671,7 @@ function Toolbar({
   placeholder: string;
   onCSV: () => void;
   onPrint: () => void;
+  onXLSX?: () => void;
   onAdd: () => void;
   extra?: React.ReactNode;
 }) {
@@ -535,6 +691,11 @@ function Toolbar({
       <Button size="sm" variant="outline" onClick={onCSV}>
         <Download className="w-4 h-4 mr-1" /> CSV
       </Button>
+      {onXLSX && (
+        <Button size="sm" variant="outline" onClick={onXLSX}>
+          <FileSpreadsheet className="w-4 h-4 mr-1" /> XLSX
+        </Button>
+      )}
       <Button size="sm" variant="outline" onClick={onPrint}>
         <Printer className="w-4 h-4 mr-1" /> Imprimir
       </Button>
