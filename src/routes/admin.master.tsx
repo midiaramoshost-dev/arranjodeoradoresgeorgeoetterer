@@ -199,12 +199,71 @@ function exportAgendaXLSX(items: AgendaItem[], filename: string) {
 
 function AgendaTab() {
   const agenda = useMaster((d) => d.agenda);
+  const themes = useMaster((d) => d.themes);
+  const oradoresLocais = useMaster((d) => d.oradoresLocais);
+  const presidencia = useMaster((d) => d.presidencia);
+  const leitores = useMaster((d) => d.leitores);
   const [q, setQ] = useState("");
   const [mes, setMes] = useState<string>("");
   const [format, setFormat] = useState<AgendaFormat>("sheet");
   const { newId, setNewId, rootRef } = useFlashNew();
 
   const meses = useMemo(() => Array.from(new Set(agenda.map((a) => normalizeMonthLabel(monthKeyFromItem(a))))), [agenda]);
+
+  // Listas para autocomplete (atualizam em tempo real conforme outras abas)
+  const themeOptions = useMemo(
+    () =>
+      themes
+        .filter((t) => (t.title || "").trim())
+        .map((t) => ({ value: t.title, label: `${t.num} — ${t.title}`, num: String(t.num || "") })),
+    [themes],
+  );
+  const oradorOptions = useMemo(() => {
+    const set = new Map<string, { name: string; tel?: string; congregacao?: string }>();
+    oradoresLocais.forEach((o) => o.name && set.set(o.name, { name: o.name, tel: (o as any).phone }));
+    agenda.forEach((a) => {
+      if (a.orador && !set.has(a.orador)) set.set(a.orador, { name: a.orador, tel: a.telefone, congregacao: a.congregacao });
+    });
+    return Array.from(set.values());
+  }, [oradoresLocais, agenda]);
+  const congregacaoOptions = useMemo(
+    () => Array.from(new Set(agenda.map((a) => a.congregacao).filter(Boolean))),
+    [agenda],
+  );
+  const presidenteOptions = useMemo(() => {
+    const s = new Set<string>();
+    presidencia.forEach((p) => p.name && s.add(p.name));
+    agenda.forEach((a) => a.presidente && s.add(a.presidente));
+    return Array.from(s);
+  }, [presidencia, agenda]);
+  const leitorOptions = useMemo(() => {
+    const s = new Set<string>();
+    leitores.forEach((p) => p.name && s.add(p.name));
+    agenda.forEach((a) => a.leitor && s.add(a.leitor));
+    return Array.from(s);
+  }, [leitores, agenda]);
+
+  // Ao escolher tema/orador, preencher campos relacionados
+  function applyTemaSelection(id: string, value: string) {
+    const match = themeOptions.find((t) => t.value === value);
+    if (match) master.update("agenda", id, { tema: value, temaNum: match.num });
+    else master.update("agenda", id, { tema: value });
+  }
+  function applyTemaNumSelection(id: string, value: string) {
+    const match = themeOptions.find((t) => t.num === value.trim());
+    if (match) master.update("agenda", id, { temaNum: value, tema: match.value });
+    else master.update("agenda", id, { temaNum: value });
+  }
+  function applyOradorSelection(id: string, value: string, current: AgendaItem) {
+    const match = oradorOptions.find((o) => o.name === value);
+    const patch: Partial<AgendaItem> = { orador: value };
+    if (match) {
+      if (match.tel && !current.telefone) patch.telefone = match.tel;
+      if (match.congregacao && !current.congregacao) patch.congregacao = match.congregacao;
+    }
+    master.update("agenda", id, patch);
+  }
+
   const filtered = useMemo(
     () =>
       agenda.filter(
@@ -245,8 +304,41 @@ function AgendaTab() {
     setNewId(id);
   };
 
+  const dl = {
+    tema: "dl-tema",
+    temaNum: "dl-temanum",
+    orador: "dl-orador",
+    congregacao: "dl-congregacao",
+    presidente: "dl-presidente",
+    leitor: "dl-leitor",
+  };
+
+  const cellFor = (a: AgendaItem, row: (typeof agendaRows)[number]) => {
+    const value = agendaValueFor(row, a);
+    const cls = row.key === "tema" ? "font-bold text-center" : "text-center";
+    switch (row.key) {
+      case "tema":
+        return <InlineCell value={value} list={dl.tema} onChange={(v) => applyTemaSelection(a.id, v)} className={cls} />;
+      case "orador":
+        return <InlineCell value={value} list={dl.orador} onChange={(v) => applyOradorSelection(a.id, v, a)} className={cls} />;
+      case "congregacao":
+        return <InlineCell value={value} list={dl.congregacao} onChange={(v) => master.update("agenda", a.id, { congregacao: v })} className={cls} />;
+      case "presidente":
+        return <InlineCell value={value} list={dl.presidente} onChange={(v) => master.update("agenda", a.id, { presidente: v })} className={cls} />;
+      case "leitor":
+        return <InlineCell value={value} list={dl.leitor} onChange={(v) => master.update("agenda", a.id, { leitor: v })} className={cls} />;
+    }
+  };
+
   return (
     <div className="space-y-3" ref={rootRef}>
+      <datalist id={dl.tema}>{themeOptions.map((t) => <option key={t.label} value={t.value}>{t.label}</option>)}</datalist>
+      <datalist id={dl.temaNum}>{themeOptions.map((t) => <option key={t.label} value={t.num}>{t.label}</option>)}</datalist>
+      <datalist id={dl.orador}>{oradorOptions.map((o) => <option key={o.name} value={o.name} />)}</datalist>
+      <datalist id={dl.congregacao}>{congregacaoOptions.map((c) => <option key={c} value={c} />)}</datalist>
+      <datalist id={dl.presidente}>{presidenteOptions.map((p) => <option key={p} value={p} />)}</datalist>
+      <datalist id={dl.leitor}>{leitorOptions.map((p) => <option key={p} value={p} />)}</datalist>
+
       <Toolbar
         q={q}
         setQ={setQ}
@@ -311,11 +403,7 @@ function AgendaTab() {
                         )}
                       </td>
                       <td className={`border border-black px-2 py-0.5 text-center ${row.key === "tema" ? "font-bold" : ""}`}>
-                        <InlineCell
-                          value={agendaValueFor(row, a)}
-                          onChange={(v) => master.update("agenda", a.id, { [row.key]: v } as Partial<AgendaItem>)}
-                          className={row.key === "tema" ? "font-bold text-center" : "text-center"}
-                        />
+                        {cellFor(a, row)}
                       </td>
                     </tr>
                   );
@@ -343,13 +431,13 @@ function AgendaTab() {
               <div className="grid grid-cols-1 md:grid-cols-4 gap-2">
                 <Field label="Mês" value={a.mes} onChange={(v) => master.update("agenda", a.id, { mes: v })} />
                 <Field label="Data" value={a.data} onChange={(v) => master.update("agenda", a.id, { data: v })} />
-                <Field label="Nº Tema" value={a.temaNum} onChange={(v) => master.update("agenda", a.id, { temaNum: v })} />
+                <Field label="Nº Tema" value={a.temaNum} list={dl.temaNum} onChange={(v) => applyTemaNumSelection(a.id, v)} />
                 <Field label="Telefone" value={a.telefone} onChange={(v) => master.update("agenda", a.id, { telefone: v })} />
-                <Field label="Orador" value={a.orador} onChange={(v) => master.update("agenda", a.id, { orador: v })} />
-                <Field label="Tema" value={a.tema} onChange={(v) => master.update("agenda", a.id, { tema: v })} className="md:col-span-3" />
-                <Field label="Congregação" value={a.congregacao} onChange={(v) => master.update("agenda", a.id, { congregacao: v })} />
-                <Field label="Presidente" value={a.presidente} onChange={(v) => master.update("agenda", a.id, { presidente: v })} />
-                <Field label="Leitor" value={a.leitor} onChange={(v) => master.update("agenda", a.id, { leitor: v })} />
+                <Field label="Orador" value={a.orador} list={dl.orador} onChange={(v) => applyOradorSelection(a.id, v, a)} />
+                <Field label="Tema" value={a.tema} list={dl.tema} onChange={(v) => applyTemaSelection(a.id, v)} className="md:col-span-3" />
+                <Field label="Congregação" value={a.congregacao} list={dl.congregacao} onChange={(v) => master.update("agenda", a.id, { congregacao: v })} />
+                <Field label="Presidente" value={a.presidente} list={dl.presidente} onChange={(v) => master.update("agenda", a.id, { presidente: v })} />
+                <Field label="Leitor" value={a.leitor} list={dl.leitor} onChange={(v) => master.update("agenda", a.id, { leitor: v })} />
                 <Field label="Discurso final / obs" value={a.obs} onChange={(v) => master.update("agenda", a.id, { obs: v })} />
               </div>
               <div className="flex justify-end">
@@ -627,10 +715,11 @@ function Section({ title, children }: { title: string; children: React.ReactNode
 
 /* ----------------- shared UI ----------------- */
 
-function InlineCell({ value, onChange, className }: { value: string; onChange: (v: string) => void; className?: string }) {
+function InlineCell({ value, onChange, className, list }: { value: string; onChange: (v: string) => void; className?: string; list?: string }) {
   return (
     <input
       value={value || ""}
+      list={list}
       onChange={(e) => onChange(e.target.value)}
       className={`h-5 w-full min-w-0 border-0 bg-transparent p-0 text-[12px] leading-none outline-none focus:bg-background focus:ring-1 focus:ring-ring ${className || ""}`}
     />
@@ -642,16 +731,18 @@ function Field({
   value,
   onChange,
   className,
+  list,
 }: {
   label: string;
   value: string;
   onChange: (v: string) => void;
   className?: string;
+  list?: string;
 }) {
   return (
     <label className={`flex flex-col text-xs gap-1 ${className || ""}`}>
       <span className="text-muted-foreground">{label}</span>
-      <Input value={value} onChange={(e) => onChange(e.target.value)} />
+      <Input value={value} list={list} onChange={(e) => onChange(e.target.value)} />
     </label>
   );
 }
