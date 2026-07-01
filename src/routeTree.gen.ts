@@ -12,6 +12,7 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as AdminRouteImport } from './routes/admin'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AdminIndexRouteImport } from './routes/admin.index'
+import { Route as AdminVmmRouteImport } from './routes/admin.vmm'
 import { Route as AdminTemasRouteImport } from './routes/admin.temas'
 import { Route as AdminOradoresRouteImport } from './routes/admin.oradores'
 import { Route as AdminMasterRouteImport } from './routes/admin.master'
@@ -31,6 +32,11 @@ const IndexRoute = IndexRouteImport.update({
 const AdminIndexRoute = AdminIndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminVmmRoute = AdminVmmRouteImport.update({
+  id: '/vmm',
+  path: '/vmm',
   getParentRoute: () => AdminRoute,
 } as any)
 const AdminTemasRoute = AdminTemasRouteImport.update({
@@ -67,6 +73,7 @@ export interface FileRoutesByFullPath {
   '/admin/master': typeof AdminMasterRoute
   '/admin/oradores': typeof AdminOradoresRoute
   '/admin/temas': typeof AdminTemasRoute
+  '/admin/vmm': typeof AdminVmmRoute
   '/admin/': typeof AdminIndexRoute
 }
 export interface FileRoutesByTo {
@@ -76,6 +83,7 @@ export interface FileRoutesByTo {
   '/admin/master': typeof AdminMasterRoute
   '/admin/oradores': typeof AdminOradoresRoute
   '/admin/temas': typeof AdminTemasRoute
+  '/admin/vmm': typeof AdminVmmRoute
   '/admin': typeof AdminIndexRoute
 }
 export interface FileRoutesById {
@@ -87,6 +95,7 @@ export interface FileRoutesById {
   '/admin/master': typeof AdminMasterRoute
   '/admin/oradores': typeof AdminOradoresRoute
   '/admin/temas': typeof AdminTemasRoute
+  '/admin/vmm': typeof AdminVmmRoute
   '/admin/': typeof AdminIndexRoute
 }
 export interface FileRouteTypes {
@@ -99,6 +108,7 @@ export interface FileRouteTypes {
     | '/admin/master'
     | '/admin/oradores'
     | '/admin/temas'
+    | '/admin/vmm'
     | '/admin/'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -108,6 +118,7 @@ export interface FileRouteTypes {
     | '/admin/master'
     | '/admin/oradores'
     | '/admin/temas'
+    | '/admin/vmm'
     | '/admin'
   id:
     | '__root__'
@@ -118,6 +129,7 @@ export interface FileRouteTypes {
     | '/admin/master'
     | '/admin/oradores'
     | '/admin/temas'
+    | '/admin/vmm'
     | '/admin/'
   fileRoutesById: FileRoutesById
 }
@@ -147,6 +159,13 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/admin/'
       preLoaderRoute: typeof AdminIndexRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/vmm': {
+      id: '/admin/vmm'
+      path: '/vmm'
+      fullPath: '/admin/vmm'
+      preLoaderRoute: typeof AdminVmmRouteImport
       parentRoute: typeof AdminRoute
     }
     '/admin/temas': {
@@ -193,6 +212,7 @@ interface AdminRouteChildren {
   AdminMasterRoute: typeof AdminMasterRoute
   AdminOradoresRoute: typeof AdminOradoresRoute
   AdminTemasRoute: typeof AdminTemasRoute
+  AdminVmmRoute: typeof AdminVmmRoute
   AdminIndexRoute: typeof AdminIndexRoute
 }
 
@@ -202,6 +222,7 @@ const AdminRouteChildren: AdminRouteChildren = {
   AdminMasterRoute: AdminMasterRoute,
   AdminOradoresRoute: AdminOradoresRoute,
   AdminTemasRoute: AdminTemasRoute,
+  AdminVmmRoute: AdminVmmRoute,
   AdminIndexRoute: AdminIndexRoute,
 }
 
