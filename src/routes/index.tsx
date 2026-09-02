@@ -12,34 +12,34 @@ export const Route = createFileRoute("/")({
 
 function Home() {
   return (
-    <div className="min-h-screen flex items-center justify-center bg-[#050505] overflow-hidden relative selection:bg-white selection:text-black">
+    <div className="min-h-screen flex items-center justify-center bg-[#120b1f] overflow-hidden relative selection:bg-fuchsia-200 selection:text-[#120b1f]">
       <style>{`
         @keyframes go-pulse {
-          0%, 100% { opacity: 0.08; transform: scale(1); }
-          50% { opacity: 0.14; transform: scale(1.05); }
+          0%, 100% { opacity: 0.1; transform: scale(1); }
+          50% { opacity: 0.18; transform: scale(1.05); }
         }
         @keyframes go-pulse-delayed {
-          0%, 100% { opacity: 0.12; transform: scale(1); }
-          50% { opacity: 0.18; transform: scale(1.08); }
+          0%, 100% { opacity: 0.14; transform: scale(1); }
+          50% { opacity: 0.22; transform: scale(1.08); }
         }
         @keyframes go-text-glow {
           0%, 100% { filter: brightness(1); }
-          50% { filter: brightness(1.08) drop-shadow(0 0 24px rgba(255,255,255,0.04)); }
+          50% { filter: brightness(1.1) drop-shadow(0 0 24px rgba(244,114,182,0.12)); }
         }
         @keyframes go-line-breathe {
-          from { width: 40px; opacity: 0.1; }
-          to { width: 180px; opacity: 0.35; }
+          from { width: 40px; opacity: 0.18; }
+          to { width: 180px; opacity: 0.5; }
         }
       `}</style>
 
       {/* Atmospheric background elements */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         <div
-          className="absolute -top-[10%] -left-[10%] w-[50%] h-[50%] rounded-full bg-blue-900/10 blur-[120px]"
+          className="absolute -top-[10%] -left-[10%] w-[50%] h-[50%] rounded-full bg-fuchsia-700/20 blur-[120px]"
           style={{ animation: "go-pulse 10s ease-in-out infinite" }}
         />
         <div
-          className="absolute -bottom-[10%] -right-[10%] w-[60%] h-[60%] rounded-full bg-indigo-950/20 blur-[140px]"
+          className="absolute -bottom-[10%] -right-[10%] w-[60%] h-[60%] rounded-full bg-violet-900/30 blur-[140px]"
           style={{ animation: "go-pulse-delayed 12s ease-in-out infinite" }}
         />
       </div>
@@ -47,7 +47,7 @@ function Home() {
       {/* Wordmark */}
       <div className="relative z-10 text-center px-6">
         <h1
-          className="text-5xl md:text-7xl lg:text-9xl font-light tracking-[0.25em] uppercase leading-none text-transparent bg-clip-text bg-gradient-to-b from-zinc-100 via-zinc-400 to-zinc-600 drop-shadow-[0_0_15px_rgba(255,255,255,0.06)]"
+          className="text-5xl md:text-7xl lg:text-9xl font-light tracking-[0.25em] uppercase leading-none text-transparent bg-clip-text bg-gradient-to-b from-fuchsia-100 via-purple-300 to-violet-500 drop-shadow-[0_0_15px_rgba(244,114,182,0.12)]"
           style={{ fontFamily: "'Cormorant Garamond', serif", animation: "go-text-glow 8s ease-in-out infinite alternate" }}
         >
           George <br className="md:hidden" /> Oetterer
@@ -55,7 +55,7 @@ function Home() {
 
         <div className="mt-8 flex justify-center">
           <div
-            className="h-[1px] bg-gradient-to-r from-transparent via-zinc-500 to-transparent"
+            className="h-[1px] bg-gradient-to-r from-transparent via-fuchsia-400 to-transparent"
             style={{ animation: "go-line-breathe 3s ease-in-out infinite alternate" }}
           />
         </div>
