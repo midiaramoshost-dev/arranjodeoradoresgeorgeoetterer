@@ -4,12 +4,20 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
-import { Shield, Lock } from "lucide-react";
+import { Shield, Lock, UserRound } from "lucide-react";
 import { toast } from "sonner";
+
+const ADMIN_LOGIN_KEY = "admin-login";
+
+function getSavedLogin() {
+  if (typeof window === "undefined") return "admin";
+  return window.localStorage.getItem(ADMIN_LOGIN_KEY) ?? "admin";
+}
 
 export function AuthGate({ children }: { children: React.ReactNode }) {
   const isAdmin = useStore((s) => s.auth.isAdmin);
   const hasPassword = useStore((s) => !!s.settings.adminPasswordHash);
+  const [login, setLogin] = useState("");
   const [pw, setPw] = useState("");
   const [pw2, setPw2] = useState("");
   const [loading, setLoading] = useState(false);
@@ -18,20 +26,48 @@ export function AuthGate({ children }: { children: React.ReactNode }) {
 
   const submit = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    const normalizedLogin = login.trim();
+
+    if (normalizedLogin.length < 3) {
+      toast.error("Informe um login válido");
+      return;
+    }
+
     if (!pw) return;
+
+    if (hasPassword) {
+      const savedLogin = getSavedLogin();
+      if (normalizedLogin.toLocaleLowerCase("pt-BR") !== savedLogin.toLocaleLowerCase("pt-BR")) {
+        toast.error("Login ou senha incorretos");
+        return;
+      }
+    }
+
     if (!hasPassword && pw !== pw2) {
       toast.error("As senhas não conferem");
       return;
     }
+
     if (pw.length < 4) {
       toast.error("Senha muito curta");
       return;
     }
+
     setLoading(true);
     const ok = await actions.login(pw);
     setLoading(false);
-    if (!ok) toast.error("Senha incorreta");
-    else toast.success("Bem-vindo");
+
+    if (!ok) {
+      toast.error("Login ou senha incorretos");
+      return;
+    }
+
+    if (!hasPassword && typeof window !== "undefined") {
+      window.localStorage.setItem(ADMIN_LOGIN_KEY, normalizedLogin);
+    }
+
+    toast.success("Bem-vindo");
   };
 
   return (
@@ -43,29 +79,70 @@ export function AuthGate({ children }: { children: React.ReactNode }) {
           </div>
           <CardTitle className="font-display text-2xl">Painel Administrativo</CardTitle>
           <CardDescription>
-            {hasPassword ? "Acesso restrito. Digite sua senha." : "Primeiro acesso — defina a senha de administrador."}
+            {hasPassword
+              ? "Acesso restrito. Digite seu login e senha."
+              : "Primeiro acesso — defina seu login e senha de administrador."}
           </CardDescription>
         </CardHeader>
         <CardContent>
           <form onSubmit={submit} className="space-y-4">
             <div className="space-y-2">
-              <Label htmlFor="pw">Senha</Label>
+              <Label htmlFor="login">Login</Label>
               <div className="relative">
-                <Lock className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                <Input id="pw" type="password" className="pl-9" value={pw} onChange={(e) => setPw(e.target.value)} autoFocus />
+                <UserRound className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+                <Input
+                  id="login"
+                  type="text"
+                  className="pl-9"
+                  value={login}
+                  onChange={(e) => setLogin(e.target.value)}
+                  autoComplete="username"
+                  autoFocus
+                  required
+                />
               </div>
             </div>
+
+            <div className="space-y-2">
+              <Label htmlFor="pw">Senha</Label>
+              <div className="relative">
+                <Lock className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+                <Input
+                  id="pw"
+                  type="password"
+                  className="pl-9"
+                  value={pw}
+                  onChange={(e) => setPw(e.target.value)}
+                  autoComplete={hasPassword ? "current-password" : "new-password"}
+                  required
+                />
+              </div>
+            </div>
+
             {!hasPassword && (
               <div className="space-y-2">
                 <Label htmlFor="pw2">Confirmar senha</Label>
-                <Input id="pw2" type="password" value={pw2} onChange={(e) => setPw2(e.target.value)} />
+                <Input
+                  id="pw2"
+                  type="password"
+                  value={pw2}
+                  onChange={(e) => setPw2(e.target.value)}
+                  autoComplete="new-password"
+                  required
+                />
               </div>
             )}
-            <Button type="submit" className="w-full bg-brand text-brand-foreground hover:bg-brand/90" disabled={loading}>
-              {hasPassword ? "Entrar" : "Definir senha e entrar"}
+
+            <Button
+              type="submit"
+              className="w-full bg-brand text-brand-foreground hover:bg-brand/90"
+              disabled={loading}
+            >
+              {loading ? "Entrando..." : hasPassword ? "Entrar" : "Criar acesso e entrar"}
             </Button>
+
             <p className="text-xs text-center text-muted-foreground">
-              Versão local. Quando conectar ao Supabase, ativamos login real por e-mail.
+              Use o login e a senha cadastrados neste dispositivo.
             </p>
           </form>
         </CardContent>
