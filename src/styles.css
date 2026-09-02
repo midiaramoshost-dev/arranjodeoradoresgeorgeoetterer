@@ -118,3 +118,8 @@
   }
   h1, h2, h3, .font-display { font-family: var(--font-display); letter-spacing: -0.02em; }
 }
+
+/* Oculta a marca d'água adicionada pelo ambiente do Lovable. */
+#lovable-badge {
+  display: none !important;
+}
