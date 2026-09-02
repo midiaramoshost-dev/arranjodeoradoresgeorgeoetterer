@@ -3,47 +3,88 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { CalendarDays, ChevronDown, Clock3, MapPin, Search, Users } from "lucide-react";
 import importedData from "@/data/imported.json";
 
-const illustrationTypes = [
-  "conceito principal",
-  "aplicação prática",
-  "família",
-  "jovens",
-  "oração",
-  "estudo bíblico",
-  "reunião cristã",
-  "natureza",
-  "ajuda ao próximo",
-  "decisão sábia",
-  "confiança",
-  "esperança",
-  "amor",
-  "fé",
-  "vida cotidiana",
+const writtenIllustrations = [
+  {
+    concept: "conceito principal",
+    text: "Imagine uma situação simples do dia a dia que ajude a compreender a ideia central deste tema.",
+  },
+  {
+    concept: "aplicação prática",
+    text: "Uma maneira de aplicar este princípio é escolher uma atitude concreta e praticá-la durante a semana.",
+  },
+  {
+    concept: "família",
+    text: "Uma família que conversa com respeito e coopera nas decisões demonstra como este tema pode fortalecer o lar.",
+  },
+  {
+    concept: "jovens",
+    text: "Um jovem pode usar este princípio ao tomar decisões na escola, nas amizades e no uso do seu tempo.",
+  },
+  {
+    concept: "oração",
+    text: "Ao enfrentar uma dificuldade, reservar um momento para orar pode ajudar a buscar orientação e manter a calma.",
+  },
+  {
+    concept: "estudo bíblico",
+    text: "Ler um relato bíblico e refletir sobre as escolhas dos personagens ajuda a tornar o aprendizado mais pessoal.",
+  },
+  {
+    concept: "reunião cristã",
+    text: "A participação em uma reunião cristã oferece encorajamento e oportunidades para colocar em prática o que foi aprendido.",
+  },
+  {
+    concept: "natureza",
+    text: "Observar a ordem e a beleza da natureza pode despertar gratidão e reforçar a confiança no Criador.",
+  },
+  {
+    concept: "ajuda ao próximo",
+    text: "Oferecer tempo, atenção ou ajuda prática a alguém em necessidade é uma forma de demonstrar amor genuíno.",
+  },
+  {
+    concept: "decisão sábia",
+    text: "Antes de decidir, considerar os princípios envolvidos e as possíveis consequências favorece uma escolha equilibrada.",
+  },
+  {
+    concept: "confiança",
+    text: "Mesmo sem conhecer todos os detalhes do futuro, é possível avançar com confiança quando se segue uma orientação segura.",
+  },
+  {
+    concept: "esperança",
+    text: "A esperança funciona como uma âncora: ajuda a permanecer firme quando as circunstâncias atuais são difíceis.",
+  },
+  {
+    concept: "amor",
+    text: "O amor verdadeiro aparece em ações pacientes, bondosas e atenciosas, especialmente quando seria mais fácil desistir.",
+  },
+  {
+    concept: "fé",
+    text: "A fé pode ser comparada a uma ponte: permite agir com confiança mesmo antes de enxergar todo o caminho.",
+  },
+  {
+    concept: "vida cotidiana",
+    text: "Pequenas escolhas feitas em casa, no trabalho e nas conversas diárias podem revelar como este tema orienta a vida.",
+  },
 ];
-
-function getIllustrationUrl(title: string, themeNum: number, index: number) {
-  const concept = illustrationTypes[index];
-  const query = encodeURIComponent(`${title}, ${concept}, peaceful illustration`);
-  return `https://loremflickr.com/640/400/${query}?lock=${themeNum * 100 + index}`;
-}
 
 function IllustrationGallery({ title, themeNum }: { title: string; themeNum: number }) {
   return (
     <details className="mt-3 rounded-lg border border-[#e2dccf] bg-[#fcfbf7] px-3 py-2">
       <summary className="cursor-pointer text-xs font-semibold text-[#8c672d]">
-        Ver 15 ilustrações baseadas neste tema
+        Ver 15 ilustrações escritas baseadas neste tema
       </summary>
-      <div className="mt-3 grid grid-cols-2 gap-2 sm:grid-cols-3 md:grid-cols-5">
-        {illustrationTypes.map((concept, index) => (
-          <figure key={`${themeNum}-${concept}`} className="overflow-hidden rounded-md border border-[#e2dccf] bg-white">
-            <img
-              src={getIllustrationUrl(title, themeNum, index)}
-              alt={`${concept} — ${title}`}
-              loading="lazy"
-              className="aspect-[4/3] w-full object-cover"
-            />
-            <figcaption className="truncate px-2 py-1 text-[10px] text-[#6d7773]">{concept}</figcaption>
-          </figure>
+      <div className="mt-3 grid gap-2 sm:grid-cols-2 md:grid-cols-3">
+        {writtenIllustrations.map((illustration, index) => (
+          <article
+            key={`${themeNum}-${illustration.concept}`}
+            className="rounded-md border border-[#e2dccf] bg-white p-3"
+          >
+            <p className="text-[10px] font-semibold uppercase tracking-wide text-[#a47b35]">
+              {index + 1}. {illustration.concept}
+            </p>
+            <p className="mt-2 text-xs leading-relaxed text-[#405653]">
+              {illustration.text} Tema relacionado: {title}.
+            </p>
+          </article>
         ))}
       </div>
     </details>
@@ -181,7 +222,7 @@ function Home() {
           {filteredAgenda.length === 0 && <div className="rounded-2xl border border-dashed border-[#cfc3aa] bg-white p-10 text-center text-[#6d7773]">Nenhuma programação encontrada para os filtros selecionados.</div>}
         </section>
 
-        <section className="mt-16 border-t border-[#d9d0bd] pt-10"><div className="mb-5 flex items-end justify-between gap-4"><div><p className="text-sm font-semibold uppercase tracking-[0.2em] text-[#a47b35]">Referência</p><h2 className="mt-1 font-display text-3xl text-[#173b40]">Catálogo de temas</h2></div><p className="text-sm text-[#6d7773]">{importedData.themes.length} temas · 15 ilustrações por tema</p></div><div className="grid gap-2 sm:grid-cols-2 lg:grid-cols-3">{importedData.themes.map((theme) => <div key={theme.num} className="rounded-lg border border-[#e2dccf] bg-white px-4 py-3 text-sm"><span className="mr-2 font-semibold text-[#a47b35]">{theme.num}.</span><span className="text-[#405653]">{theme.title}</span><IllustrationGallery title={theme.title} themeNum={theme.num} /></div>)}</div></section>
+        <section className="mt-16 border-t border-[#d9d0bd] pt-10"><div className="mb-5 flex items-end justify-between gap-4"><div><p className="text-sm font-semibold uppercase tracking-[0.2em] text-[#a47b35]">Referência</p><h2 className="mt-1 font-display text-3xl text-[#173b40]">Catálogo de temas</h2></div><p className="text-sm text-[#6d7773]">{importedData.themes.length} temas · 15 ilustrações escritas por tema</p></div><div className="grid gap-2 sm:grid-cols-2 lg:grid-cols-3">{importedData.themes.map((theme) => <div key={theme.num} className="rounded-lg border border-[#e2dccf] bg-white px-4 py-3 text-sm"><span className="mr-2 font-semibold text-[#a47b35]">{theme.num}.</span><span className="text-[#405653]">{theme.title}</span><IllustrationGallery title={theme.title} themeNum={theme.num} /></div>)}</div></section>
       </main>
       <footer className="border-t border-[#d9d0bd] bg-[#173b40] px-5 py-8 text-center text-sm text-[#d8d1bf]">Agenda pública · George Oetterer · 2026</footer>
     </div>
