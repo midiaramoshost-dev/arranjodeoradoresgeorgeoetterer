@@ -3,7 +3,15 @@ import themesSeed from "@/data/themes.json";
 
 export type Theme = { num: number; title: string };
 export type Speaker = { id: string; name: string; congregationId?: string; phone?: string };
-export type Congregation = { id: string; name: string; city?: string };
+export type Congregation = {
+  id: string;
+  name: string;
+  city?: string;
+  address?: string;
+  phone?: string;
+  meetingDay?: string;
+  notes?: string;
+};
 export type Schedule = {
   id: string;
   date: string; // ISO yyyy-mm-dd
