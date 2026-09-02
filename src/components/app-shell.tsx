@@ -1,5 +1,16 @@
 import { Link, useRouterState } from "@tanstack/react-router";
-import { CalendarDays, BookOpen, Users, MapPin, LayoutDashboard, LogOut, Shield, Database, Sparkles, Images } from "lucide-react";
+import {
+  CalendarDays,
+  BookOpen,
+  Users,
+  MapPin,
+  LayoutDashboard,
+  LogOut,
+  Shield,
+  Database,
+  Sparkles,
+  Images,
+} from "lucide-react";
 import { actions, useStore } from "@/lib/store";
 import { Button } from "@/components/ui/button";
 
@@ -17,12 +28,106 @@ const nav = [
 export function AppShell({ children }: { children: React.ReactNode }) {
   const path = useRouterState({ select: (s) => s.location.pathname });
   const isAdmin = useStore((s) => s.auth.isAdmin);
-  const renderNav = (mobile = false) => nav.map((n) => {
-    const isIllustrationsLink = n.to === "/#ilustracoes";
-    const active = !isIllustrationsLink && (n.exact ? path === n.to : path.startsWith(n.to));
-    const Icon = n.icon;
-    return <Link key={n.to} to={n.to} className={mobile ? `rounded-md p-2 ${active ? "bg-accent" : ""}` : `flex items-center gap-3 rounded-md px-3 py-2 text-sm transition-colors ${active ? "bg-sidebar-accent font-medium text-sidebar-accent-foreground" : "text-sidebar-foreground/80 hover:bg-sidebar-accent/60"}`} aria-label={n.label} title={n.label}><Icon className="h-4 w-4" />{!mobile && n.label}</Link>;
-  });
 
-  return <div className="flex min-h-screen w-full bg-background"><aside className="hidden w-64 flex-col border-r border-border bg-sidebar md:flex"><div className="border-b border-sidebar-border px-6 py-6"><div className="flex items-center gap-2"><div className="grid h-9 w-9 place-items-center rounded-lg bg-brand font-display text-lg text-brand-foreground">A</div><div><div className="font-display text-lg leading-tight">Arranjo</div><div className="text-xs text-muted-foreground">Oradores e VMM</div></div></div></div><nav className="flex-1 space-y-1 p-3">{renderNav()}</nav><div className="space-y-2 border-t border-sidebar-border p-3"><Link to="/" className="block px-3 text-xs text-muted-foreground hover:text-foreground">← Ver página pública</Link>{isAdmin && <Button variant="ghost" size="sm" className="w-full justify-start" onClick={() => actions.logout()}><LogOut className="mr-2 h-4 w-4" /> Sair</Button>}</div></aside><div className="flex min-w-0 flex-1 flex-col"><header className="flex h-14 items-center justify-between border-b border-border bg-card px-4 md:hidden"><div className="flex items-center gap-2"><Shield className="h-4 w-4 text-brand" /><span className="font-display">Painel master</span></div><nav className="flex gap-1 overflow-auto">{renderNav(true)}</nav></header><main className="flex-1 overflow-auto">{children}</main></div></div>;
+  const handleLogout = () => {
+    actions.logout();
+  };
+
+  const renderNav = (mobile = false) =>
+    nav.map((n) => {
+      const isIllustrationsLink = n.to === "/#ilustracoes";
+      const active =
+        !isIllustrationsLink && (n.exact ? path === n.to : path.startsWith(n.to));
+      const Icon = n.icon;
+
+      return (
+        <Link
+          key={n.to}
+          to={n.to}
+          className={
+            mobile
+              ? `rounded-md p-2 ${active ? "bg-accent" : ""}`
+              : `flex items-center gap-3 rounded-md px-3 py-2 text-sm transition-colors ${
+                  active
+                    ? "bg-sidebar-accent font-medium text-sidebar-accent-foreground"
+                    : "text-sidebar-foreground/80 hover:bg-sidebar-accent/60"
+                }`
+          }
+          aria-label={n.label}
+          title={n.label}
+        >
+          <Icon className="h-4 w-4" />
+          {!mobile && n.label}
+        </Link>
+      );
+    });
+
+  return (
+    <div className="flex min-h-screen w-full bg-background">
+      <aside className="hidden w-64 flex-col border-r border-border bg-sidebar md:flex">
+        <div className="border-b border-sidebar-border px-6 py-6">
+          <div className="flex items-center gap-2">
+            <div className="grid h-9 w-9 place-items-center rounded-lg bg-brand font-display text-lg text-brand-foreground">
+              A
+            </div>
+            <div>
+              <div className="font-display text-lg leading-tight">Arranjo</div>
+              <div className="text-xs text-muted-foreground">Oradores e VMM</div>
+            </div>
+          </div>
+        </div>
+
+        <nav className="flex-1 space-y-1 p-3">{renderNav()}</nav>
+
+        <div className="space-y-2 border-t border-sidebar-border p-3">
+          <Link
+            to="/"
+            className="block px-3 text-xs text-muted-foreground hover:text-foreground"
+          >
+            ← Ver página pública
+          </Link>
+
+          {isAdmin && (
+            <Button
+              type="button"
+              variant="destructive"
+              size="sm"
+              className="w-full justify-start bg-red-600 text-white hover:bg-red-700"
+              onClick={handleLogout}
+            >
+              <LogOut className="mr-2 h-4 w-4" />
+              Sair
+            </Button>
+          )}
+        </div>
+      </aside>
+
+      <div className="flex min-w-0 flex-1 flex-col">
+        <header className="flex min-h-14 items-center gap-2 border-b border-border bg-card px-4 md:hidden">
+          <div className="flex shrink-0 items-center gap-2">
+            <Shield className="h-4 w-4 text-brand" />
+            <span className="font-display">Painel master</span>
+          </div>
+
+          <nav className="flex flex-1 gap-1 overflow-auto">{renderNav(true)}</nav>
+
+          {isAdmin && (
+            <Button
+              type="button"
+              size="sm"
+              className="shrink-0 bg-red-600 text-white hover:bg-red-700"
+              onClick={handleLogout}
+              aria-label="Sair do painel administrativo"
+              title="Sair"
+            >
+              <LogOut className="h-4 w-4 sm:mr-2" />
+              <span className="hidden sm:inline">Sair</span>
+            </Button>
+          )}
+        </header>
+
+        <main className="flex-1 overflow-auto">{children}</main>
+      </div>
+    </div>
+  );
 }
