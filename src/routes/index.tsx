@@ -25,6 +25,22 @@ function Home() {
     [],
   );
 
+  const incompleteAgendaCount = useMemo(
+    () =>
+      importedData.agenda.filter(
+        (item) => !item.tema || !item.orador || !item.congregacao || !item.presidente || !item.leitor,
+      ).length,
+    [],
+  );
+
+  const emptyAgendaCount = useMemo(
+    () =>
+      importedData.agenda.filter(
+        (item) => !item.tema && !item.orador && !item.congregacao,
+      ).length,
+    [],
+  );
+
   const filteredAgenda = useMemo(() => {
     const normalizedSearch = search.trim().toLocaleLowerCase("pt-BR");
 
@@ -36,6 +52,7 @@ function Home() {
         item.tema,
         item.temaNum,
         item.congregacao,
+        item.telefone,
         item.presidente,
         item.leitor,
         item.obs,
@@ -105,6 +122,16 @@ function Home() {
             <p className="mt-1 text-sm text-[#6d7773]">temas disponíveis</p>
           </div>
         </section>
+
+        {incompleteAgendaCount > 0 && (
+          <section className="mb-10 rounded-2xl border border-[#e3c98e] bg-[#fff8e8] px-5 py-4 text-sm text-[#6d572b]">
+            <p className="font-semibold text-[#8c672d]">Conteúdo em atualização</p>
+            <p className="mt-1 leading-relaxed">
+              {incompleteAgendaCount} {incompleteAgendaCount === 1 ? "programação possui" : "programações possuem"} algum campo pendente.
+              {emptyAgendaCount > 0 && ` ${emptyAgendaCount} ${emptyAgendaCount === 1 ? "registro ainda está" : "registros ainda estão"} sem tema, orador e congregação definidos.`}
+            </p>
+          </section>
+        )}
 
         <section className="mb-10 rounded-2xl border border-[#d9d0bd] bg-white p-4 shadow-sm md:p-5">
           <div className="grid gap-3 md:grid-cols-[1fr_240px]">
