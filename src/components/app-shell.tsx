@@ -1,5 +1,5 @@
 import { Link, useRouterState } from "@tanstack/react-router";
-import { CalendarDays, BookOpen, Users, Church, LayoutDashboard, LogOut, Shield, Database, Sparkles } from "lucide-react";
+import { CalendarDays, BookOpen, Users, MapPin, LayoutDashboard, LogOut, Shield, Database, Sparkles } from "lucide-react";
 import { actions, useStore } from "@/lib/store";
 import { Button } from "@/components/ui/button";
 
@@ -10,7 +10,7 @@ const nav = [
   { to: "/admin/agenda", label: "Agenda", icon: CalendarDays },
   { to: "/admin/temas", label: "Temas", icon: BookOpen },
   { to: "/admin/oradores", label: "Oradores", icon: Users },
-  { to: "/admin/congregacoes", label: "Congregações", icon: Church },
+  { to: "/admin/congregacoes", label: "Congregações", icon: MapPin },
 ];
 
 export function AppShell({ children }: { children: React.ReactNode }) {
