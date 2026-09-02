@@ -3,6 +3,53 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { CalendarDays, ChevronDown, Clock3, MapPin, Search, Users } from "lucide-react";
 import importedData from "@/data/imported.json";
 
+const illustrationTypes = [
+  "conceito principal",
+  "aplicação prática",
+  "família",
+  "jovens",
+  "oração",
+  "estudo bíblico",
+  "reunião cristã",
+  "natureza",
+  "ajuda ao próximo",
+  "decisão sábia",
+  "confiança",
+  "esperança",
+  "amor",
+  "fé",
+  "vida cotidiana",
+];
+
+function getIllustrationUrl(title: string, themeNum: number, index: number) {
+  const concept = illustrationTypes[index];
+  const query = encodeURIComponent(`${title}, ${concept}, peaceful illustration`);
+  return `https://loremflickr.com/640/400/${query}?lock=${themeNum * 100 + index}`;
+}
+
+function IllustrationGallery({ title, themeNum }: { title: string; themeNum: number }) {
+  return (
+    <details className="mt-3 rounded-lg border border-[#e2dccf] bg-[#fcfbf7] px-3 py-2">
+      <summary className="cursor-pointer text-xs font-semibold text-[#8c672d]">
+        Ver 15 ilustrações baseadas neste tema
+      </summary>
+      <div className="mt-3 grid grid-cols-2 gap-2 sm:grid-cols-3 md:grid-cols-5">
+        {illustrationTypes.map((concept, index) => (
+          <figure key={`${themeNum}-${concept}`} className="overflow-hidden rounded-md border border-[#e2dccf] bg-white">
+            <img
+              src={getIllustrationUrl(title, themeNum, index)}
+              alt={`${concept} — ${title}`}
+              loading="lazy"
+              className="aspect-[4/3] w-full object-cover"
+            />
+            <figcaption className="truncate px-2 py-1 text-[10px] text-[#6d7773]">{concept}</figcaption>
+          </figure>
+        ))}
+      </div>
+    </details>
+  );
+}
+
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
@@ -77,20 +124,13 @@ function Home() {
       <header className="border-b border-[#d9d0bd] bg-[#173b40] text-[#f7f4ec]">
         <div className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-5 py-5 md:px-8">
           <Link to="/" className="flex items-center gap-3" aria-label="Página inicial">
-            <div className="grid h-11 w-11 place-items-center rounded-xl bg-[#d6aa62] font-display text-2xl text-[#173b40]">
-              G
-            </div>
+            <div className="grid h-11 w-11 place-items-center rounded-xl bg-[#d6aa62] font-display text-2xl text-[#173b40]">G</div>
             <div>
               <p className="font-display text-xl leading-none">George Oetterer</p>
               <p className="mt-1 text-xs uppercase tracking-[0.18em] text-[#d8d1bf]">Agenda pública</p>
             </div>
           </Link>
-          <Link
-            to="/admin"
-            className="rounded-lg border border-[#d8d1bf]/40 px-3 py-2 text-sm transition-colors hover:bg-white/10"
-          >
-            Área administrativa
-          </Link>
+          <Link to="/admin" className="rounded-lg border border-[#d8d1bf]/40 px-3 py-2 text-sm transition-colors hover:bg-white/10">Área administrativa</Link>
         </div>
       </header>
 
@@ -98,144 +138,52 @@ function Home() {
         <section className="mb-10">
           <div className="max-w-3xl">
             <p className="mb-3 text-sm font-semibold uppercase tracking-[0.2em] text-[#a47b35]">Programação 2026</p>
-            <h1 className="font-display text-4xl leading-tight text-[#173b40] md:text-6xl">
-              Agenda de discursos e reuniões
-            </h1>
-            <p className="mt-4 max-w-2xl text-base leading-relaxed text-[#5c6b69] md:text-lg">
-              Consulte a programação completa, os temas dos discursos e as designações de cada reunião.
-            </p>
+            <h1 className="font-display text-4xl leading-tight text-[#173b40] md:text-6xl">Agenda de discursos e reuniões</h1>
+            <p className="mt-4 max-w-2xl text-base leading-relaxed text-[#5c6b69] md:text-lg">Consulte a programação completa, os temas dos discursos e as designações de cada reunião.</p>
           </div>
         </section>
 
         <section className="mb-10 grid gap-4 sm:grid-cols-3">
-          <div className="rounded-2xl border border-[#d9d0bd] bg-white p-5 shadow-sm">
-            <CalendarDays className="mb-4 h-5 w-5 text-[#a47b35]" />
-            <p className="text-3xl font-semibold text-[#173b40]">{importedData.agenda.length}</p>
-            <p className="mt-1 text-sm text-[#6d7773]">programações registradas</p>
-          </div>
-          <div className="rounded-2xl border border-[#d9d0bd] bg-white p-5 shadow-sm">
-            <Users className="mb-4 h-5 w-5 text-[#a47b35]" />
-            <p className="text-3xl font-semibold text-[#173b40]">{importedData.leitores.length}</p>
-            <p className="mt-1 text-sm text-[#6d7773]">leitores cadastrados</p>
-          </div>
-          <div className="rounded-2xl border border-[#d9d0bd] bg-white p-5 shadow-sm">
-            <Clock3 className="mb-4 h-5 w-5 text-[#a47b35]" />
-            <p className="text-3xl font-semibold text-[#173b40]">{importedData.themes.length}</p>
-            <p className="mt-1 text-sm text-[#6d7773]">temas disponíveis</p>
-          </div>
+          <div className="rounded-2xl border border-[#d9d0bd] bg-white p-5 shadow-sm"><CalendarDays className="mb-4 h-5 w-5 text-[#a47b35]" /><p className="text-3xl font-semibold text-[#173b40]">{importedData.agenda.length}</p><p className="mt-1 text-sm text-[#6d7773]">programações registradas</p></div>
+          <div className="rounded-2xl border border-[#d9d0bd] bg-white p-5 shadow-sm"><Users className="mb-4 h-5 w-5 text-[#a47b35]" /><p className="text-3xl font-semibold text-[#173b40]">{importedData.leitores.length}</p><p className="mt-1 text-sm text-[#6d7773]">leitores cadastrados</p></div>
+          <div className="rounded-2xl border border-[#d9d0bd] bg-white p-5 shadow-sm"><Clock3 className="mb-4 h-5 w-5 text-[#a47b35]" /><p className="text-3xl font-semibold text-[#173b40]">{importedData.themes.length}</p><p className="mt-1 text-sm text-[#6d7773]">temas disponíveis</p></div>
         </section>
 
         {incompleteAgendaCount > 0 && (
           <section className="mb-10 rounded-2xl border border-[#e3c98e] bg-[#fff8e8] px-5 py-4 text-sm text-[#6d572b]">
             <p className="font-semibold text-[#8c672d]">Conteúdo em atualização</p>
-            <p className="mt-1 leading-relaxed">
-              {incompleteAgendaCount} {incompleteAgendaCount === 1 ? "programação possui" : "programações possuem"} algum campo pendente.
-              {emptyAgendaCount > 0 && ` ${emptyAgendaCount} ${emptyAgendaCount === 1 ? "registro ainda está" : "registros ainda estão"} sem tema, orador e congregação definidos.`}
-            </p>
+            <p className="mt-1 leading-relaxed">{incompleteAgendaCount} {incompleteAgendaCount === 1 ? "programação possui" : "programações possuem"} algum campo pendente.{emptyAgendaCount > 0 && ` ${emptyAgendaCount} ${emptyAgendaCount === 1 ? "registro ainda está" : "registros ainda estão"} sem tema, orador e congregação definidos.`}</p>
           </section>
         )}
 
         <section className="mb-10 rounded-2xl border border-[#d9d0bd] bg-white p-4 shadow-sm md:p-5">
           <div className="grid gap-3 md:grid-cols-[1fr_240px]">
-            <label className="relative block">
-              <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-[#8b938e]" />
-              <input
-                value={search}
-                onChange={(event) => setSearch(event.target.value)}
-                placeholder="Buscar por tema, orador ou congregação"
-                className="h-11 w-full rounded-lg border border-[#d9d0bd] bg-[#fcfbf7] pl-10 pr-3 text-sm outline-none transition focus:border-[#a47b35] focus:ring-2 focus:ring-[#a47b35]/20"
-              />
-            </label>
-            <label className="relative block">
-              <select
-                value={selectedMonth}
-                onChange={(event) => setSelectedMonth(event.target.value)}
-                className="h-11 w-full appearance-none rounded-lg border border-[#d9d0bd] bg-[#fcfbf7] px-3 pr-9 text-sm outline-none transition focus:border-[#a47b35] focus:ring-2 focus:ring-[#a47b35]/20"
-              >
-                <option>Todos os meses</option>
-                {months.map((month) => (
-                  <option key={month}>{month}</option>
-                ))}
-              </select>
-              <ChevronDown className="pointer-events-none absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 text-[#8b938e]" />
-            </label>
+            <label className="relative block"><Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-[#8b938e]" /><input value={search} onChange={(event) => setSearch(event.target.value)} placeholder="Buscar por tema, orador ou congregação" className="h-11 w-full rounded-lg border border-[#d9d0bd] bg-[#fcfbf7] pl-10 pr-3 text-sm outline-none transition focus:border-[#a47b35] focus:ring-2 focus:ring-[#a47b35]/20" /></label>
+            <label className="relative block"><select value={selectedMonth} onChange={(event) => setSelectedMonth(event.target.value)} className="h-11 w-full appearance-none rounded-lg border border-[#d9d0bd] bg-[#fcfbf7] px-3 pr-9 text-sm outline-none transition focus:border-[#a47b35] focus:ring-2 focus:ring-[#a47b35]/20"><option>Todos os meses</option>{months.map((month) => <option key={month}>{month}</option>)}</select><ChevronDown className="pointer-events-none absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 text-[#8b938e]" /></label>
           </div>
         </section>
 
         <section className="space-y-10">
           {Object.entries(groupedAgenda).map(([month, items]) => (
             <div key={month}>
-              <div className="mb-4 flex items-center gap-3">
-                <h2 className="font-display text-3xl text-[#173b40]">{month}</h2>
-                <div className="h-px flex-1 bg-[#d9d0bd]" />
-              </div>
+              <div className="mb-4 flex items-center gap-3"><h2 className="font-display text-3xl text-[#173b40]">{month}</h2><div className="h-px flex-1 bg-[#d9d0bd]" /></div>
               <div className="grid gap-4 lg:grid-cols-2">
                 {items.map((item, index) => (
-                  <article
-                    key={`${item.data}-${item.tema}-${index}`}
-                    className="rounded-2xl border border-[#d9d0bd] bg-white p-5 shadow-sm transition hover:-translate-y-0.5 hover:shadow-md"
-                  >
-                    <div className="flex flex-wrap items-start justify-between gap-3">
-                      <div>
-                        <p className="text-sm font-semibold uppercase tracking-[0.12em] text-[#a47b35]">{item.data}</p>
-                        <h3 className="mt-2 font-display text-2xl leading-snug text-[#173b40]">
-                          {item.tema || "Programação a definir"}
-                        </h3>
-                      </div>
-                      {item.temaNum && (
-                        <span className="rounded-full bg-[#f0e7d4] px-3 py-1 text-xs font-semibold text-[#8c672d]">
-                          Tema {item.temaNum}
-                        </span>
-                      )}
-                    </div>
-                    <div className="mt-5 grid gap-3 border-t border-[#eee9dd] pt-4 text-sm text-[#5c6b69] sm:grid-cols-2">
-                      <p><strong className="font-medium text-[#173b40]">Orador:</strong> {item.orador || "A definir"}</p>
-                      <p><strong className="font-medium text-[#173b40]">Presidente:</strong> {item.presidente || "A definir"}</p>
-                      <p><strong className="font-medium text-[#173b40]">Leitor:</strong> {item.leitor || "A definir"}</p>
-                      <p className="flex items-start gap-1"><MapPin className="mt-0.5 h-4 w-4 shrink-0 text-[#a47b35]" /><span>{item.congregacao || "Local a definir"}</span></p>
-                    </div>
-                    {(item.telefone || item.obs) && (
-                      <div className="mt-4 rounded-lg bg-[#f7f4ec] px-3 py-2 text-xs text-[#6d7773]">
-                        {item.telefone && <span>{item.telefone}</span>}
-                        {item.telefone && item.obs && <span> · </span>}
-                        {item.obs && <span>{item.obs}</span>}
-                      </div>
-                    )}
+                  <article key={`${item.data}-${item.tema}-${index}`} className="rounded-2xl border border-[#d9d0bd] bg-white p-5 shadow-sm transition hover:-translate-y-0.5 hover:shadow-md">
+                    <div className="flex flex-wrap items-start justify-between gap-3"><div><p className="text-sm font-semibold uppercase tracking-[0.12em] text-[#a47b35]">{item.data}</p><h3 className="mt-2 font-display text-2xl leading-snug text-[#173b40]">{item.tema || "Programação a definir"}</h3></div>{item.temaNum && <span className="rounded-full bg-[#f0e7d4] px-3 py-1 text-xs font-semibold text-[#8c672d]">Tema {item.temaNum}</span>}</div>
+                    <div className="mt-5 grid gap-3 border-t border-[#eee9dd] pt-4 text-sm text-[#5c6b69] sm:grid-cols-2"><p><strong className="font-medium text-[#173b40]">Orador:</strong> {item.orador || "A definir"}</p><p><strong className="font-medium text-[#173b40]">Presidente:</strong> {item.presidente || "A definir"}</p><p><strong className="font-medium text-[#173b40]">Leitor:</strong> {item.leitor || "A definir"}</p><p className="flex items-start gap-1"><MapPin className="mt-0.5 h-4 w-4 shrink-0 text-[#a47b35]" /><span>{item.congregacao || "Local a definir"}</span></p></div>
+                    {(item.telefone || item.obs) && <div className="mt-4 rounded-lg bg-[#f7f4ec] px-3 py-2 text-xs text-[#6d7773]">{item.telefone && <span>{item.telefone}</span>}{item.telefone && item.obs && <span> · </span>}{item.obs && <span>{item.obs}</span>}</div>}
                   </article>
                 ))}
               </div>
             </div>
           ))}
-
-          {filteredAgenda.length === 0 && (
-            <div className="rounded-2xl border border-dashed border-[#cfc3aa] bg-white p-10 text-center text-[#6d7773]">
-              Nenhuma programação encontrada para os filtros selecionados.
-            </div>
-          )}
+          {filteredAgenda.length === 0 && <div className="rounded-2xl border border-dashed border-[#cfc3aa] bg-white p-10 text-center text-[#6d7773]">Nenhuma programação encontrada para os filtros selecionados.</div>}
         </section>
 
-        <section className="mt-16 border-t border-[#d9d0bd] pt-10">
-          <div className="mb-5 flex items-end justify-between gap-4">
-            <div>
-              <p className="text-sm font-semibold uppercase tracking-[0.2em] text-[#a47b35]">Referência</p>
-              <h2 className="mt-1 font-display text-3xl text-[#173b40]">Catálogo de temas</h2>
-            </div>
-            <p className="text-sm text-[#6d7773]">{importedData.themes.length} temas</p>
-          </div>
-          <div className="grid gap-2 sm:grid-cols-2 lg:grid-cols-3">
-            {importedData.themes.map((theme) => (
-              <div key={theme.num} className="rounded-lg border border-[#e2dccf] bg-white px-4 py-3 text-sm">
-                <span className="mr-2 font-semibold text-[#a47b35]">{theme.num}.</span>
-                <span className="text-[#405653]">{theme.title}</span>
-              </div>
-            ))}
-          </div>
-        </section>
+        <section className="mt-16 border-t border-[#d9d0bd] pt-10"><div className="mb-5 flex items-end justify-between gap-4"><div><p className="text-sm font-semibold uppercase tracking-[0.2em] text-[#a47b35]">Referência</p><h2 className="mt-1 font-display text-3xl text-[#173b40]">Catálogo de temas</h2></div><p className="text-sm text-[#6d7773]">{importedData.themes.length} temas · 15 ilustrações por tema</p></div><div className="grid gap-2 sm:grid-cols-2 lg:grid-cols-3">{importedData.themes.map((theme) => <div key={theme.num} className="rounded-lg border border-[#e2dccf] bg-white px-4 py-3 text-sm"><span className="mr-2 font-semibold text-[#a47b35]">{theme.num}.</span><span className="text-[#405653]">{theme.title}</span><IllustrationGallery title={theme.title} themeNum={theme.num} /></div>)}</div></section>
       </main>
-
-      <footer className="border-t border-[#d9d0bd] bg-[#173b40] px-5 py-8 text-center text-sm text-[#d8d1bf]">
-        Agenda pública · George Oetterer · 2026
-      </footer>
+      <footer className="border-t border-[#d9d0bd] bg-[#173b40] px-5 py-8 text-center text-sm text-[#d8d1bf]">Agenda pública · George Oetterer · 2026</footer>
     </div>
   );
 }
