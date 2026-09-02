@@ -1,5 +1,5 @@
 import { Link, useRouterState } from "@tanstack/react-router";
-import { CalendarDays, BookOpen, Users, MapPin, LayoutDashboard, LogOut, Shield, Database, Sparkles } from "lucide-react";
+import { CalendarDays, BookOpen, Users, MapPin, LayoutDashboard, LogOut, Shield, Database, Sparkles, Images } from "lucide-react";
 import { actions, useStore } from "@/lib/store";
 import { Button } from "@/components/ui/button";
 
@@ -7,6 +7,7 @@ const nav = [
   { to: "/admin", label: "Painel", icon: LayoutDashboard, exact: true },
   { to: "/admin/master", label: "Master (Planilha)", icon: Database },
   { to: "/admin/vmm", label: "Vida e Ministério", icon: Sparkles },
+  { to: "/#ilustracoes", label: "Ilustrações", icon: Images },
   { to: "/admin/agenda", label: "Agenda", icon: CalendarDays },
   { to: "/admin/temas", label: "Temas", icon: BookOpen },
   { to: "/admin/oradores", label: "Oradores", icon: Users },
@@ -31,7 +32,8 @@ export function AppShell({ children }: { children: React.ReactNode }) {
         </div>
         <nav className="flex-1 p-3 space-y-1">
           {nav.map((n) => {
-            const active = n.exact ? path === n.to : path.startsWith(n.to);
+            const isIllustrationsLink = n.to === "/#ilustracoes";
+            const active = !isIllustrationsLink && (n.exact ? path === n.to : path.startsWith(n.to));
             const Icon = n.icon;
             return (
               <Link
@@ -65,10 +67,11 @@ export function AppShell({ children }: { children: React.ReactNode }) {
           </div>
           <nav className="flex gap-1 overflow-auto">
             {nav.map((n) => {
-              const active = n.exact ? path === n.to : path.startsWith(n.to);
+              const isIllustrationsLink = n.to === "/#ilustracoes";
+              const active = !isIllustrationsLink && (n.exact ? path === n.to : path.startsWith(n.to));
               const Icon = n.icon;
               return (
-                <Link key={n.to} to={n.to} className={`p-2 rounded-md ${active ? "bg-accent" : ""}`}>
+                <Link key={n.to} to={n.to} className={`p-2 rounded-md ${active ? "bg-accent" : ""}`} aria-label={n.label} title={n.label}>
                   <Icon className="h-4 w-4" />
                 </Link>
               );
