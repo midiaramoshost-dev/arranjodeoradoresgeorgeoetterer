@@ -6,7 +6,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent } from "@/components/ui/card";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog";
-import { Plus, Pencil, Trash2, Church } from "lucide-react";
+import { Plus, Pencil, Trash2 } from "lucide-react";
 import { toast } from "sonner";
 
 export const Route = createFileRoute("/admin/congregacoes")({
@@ -47,8 +47,7 @@ function Congregacoes() {
 
       {congs.length === 0 ? (
         <Card className="border-dashed"><CardContent className="py-16 text-center text-muted-foreground">
-          <Church className="h-10 w-10 mx-auto opacity-40" />
-          <p className="mt-3">Nenhuma congregação cadastrada.</p>
+          <p>Nenhuma congregação cadastrada.</p>
         </CardContent></Card>
       ) : (
         <div className="grid sm:grid-cols-2 gap-3">
@@ -57,7 +56,6 @@ function Congregacoes() {
             return (
               <Card key={c.id}>
                 <CardContent className="p-4 flex items-center gap-3">
-                  <div className="h-10 w-10 rounded-full bg-brand/10 text-brand grid place-items-center"><Church className="h-5 w-5" /></div>
                   <div className="flex-1 min-w-0">
                     <div className="font-medium truncate">{c.name}</div>
                     <div className="text-xs text-muted-foreground truncate">{c.city || "—"} · {count} orador(es)</div>
