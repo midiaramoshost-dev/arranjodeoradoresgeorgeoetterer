@@ -3,6 +3,19 @@ import imported from "@/data/imported.json";
 
 export type Theme = { id: string; num: number; title: string; dateFeito?: string; obs?: string };
 export type Person = { id: string; name: string; themes?: string; phone?: string; notes?: string };
+export type Congregation = {
+  id: string;
+  name: string;
+  city?: string;
+  address?: string;
+  phone?: string;
+  meetingDay?: string;
+  notes?: string;
+  active: boolean;
+  coordinator?: string;
+  serviceOverseer?: string;
+  secretary?: string;
+};
 export type AgendaItem = {
   id: string;
   mes: string;
@@ -23,41 +36,22 @@ export type MasterDB = {
   oradoresLocais: Person[];
   presidencia: Person[];
   leitores: Person[];
+  congregacoes: Congregation[];
 };
 
-const KEY = "arranjo_master_v4";
+const KEY = "arranjo_master_v5";
 const rid = () => Math.random().toString(36).slice(2, 10);
 
 function seed(): MasterDB {
   const d = imported as any;
+  const names = Array.from(new Set((d.agenda as any[]).map((a) => a.congregacao).filter(Boolean))) as string[];
   return {
-    themes: (d.themes as any[]).map((t) => ({
-      id: rid(),
-      num: t.num,
-      title: t.title || "",
-      dateFeito: t.dateFeito || "",
-      obs: t.obs || "",
-    })),
-    agenda: (d.agenda as any[]).map((a) => ({
-      id: rid(),
-      mes: a.mes || "",
-      data: a.data || "",
-      orador: a.orador || "",
-      tema: a.tema || "",
-      temaNum: a.temaNum || "",
-      congregacao: a.congregacao || "",
-      telefone: a.telefone || "",
-      presidente: a.presidente || "",
-      leitor: a.leitor || "",
-      obs: a.obs || "",
-    })),
-    oradoresLocais: (d.oradoresLocais as any[]).map((o) => ({
-      id: rid(),
-      name: o.name,
-      themes: o.themes || "",
-    })),
+    themes: (d.themes as any[]).map((t) => ({ id: rid(), num: t.num, title: t.title || "", dateFeito: t.dateFeito || "", obs: t.obs || "" })),
+    agenda: (d.agenda as any[]).map((a) => ({ id: rid(), mes: a.mes || "", data: a.data || "", orador: a.orador || "", tema: a.tema || "", temaNum: a.temaNum || "", congregacao: a.congregacao || "", telefone: a.telefone || "", presidente: a.presidente || "", leitor: a.leitor || "", obs: a.obs || "" })),
+    oradoresLocais: (d.oradoresLocais as any[]).map((o) => ({ id: rid(), name: o.name, themes: o.themes || "" })),
     presidencia: (d.presidencia as string[]).map((n) => ({ id: rid(), name: n })),
     leitores: (d.leitores as string[]).map((n) => ({ id: rid(), name: n })),
+    congregacoes: names.map((name) => ({ id: rid(), name, active: true, coordinator: "", serviceOverseer: "", secretary: "" })),
   };
 }
 
@@ -71,142 +65,49 @@ function load() {
   if (typeof window === "undefined") return;
   try {
     const raw = localStorage.getItem(KEY);
-    if (raw) state = { ...seed(), ...JSON.parse(raw) };
+    if (raw) {
+      const saved = JSON.parse(raw);
+      state = { ...seed(), ...saved, congregacoes: saved.congregacoes || seed().congregacoes };
+    }
   } catch {}
 }
 
 function persist() {
-  if (typeof window === "undefined") return;
-  localStorage.setItem(KEY, JSON.stringify(state));
+  if (typeof window !== "undefined") localStorage.setItem(KEY, JSON.stringify(state));
 }
-
-function emit() {
-  listeners.forEach((l) => l());
-}
-
-export function setMaster(updater: (s: MasterDB) => MasterDB) {
-  load();
-  state = updater(state);
-  persist();
-  emit();
-}
-
+function emit() { listeners.forEach((listener) => listener()); }
+export function setMaster(updater: (s: MasterDB) => MasterDB) { load(); state = updater(state); persist(); emit(); }
 export function useMaster<T>(selector: (s: MasterDB) => T): T {
   load();
-  return useSyncExternalStore(
-    (cb) => {
-      listeners.add(cb);
-      return () => listeners.delete(cb);
-    },
-    () => selector(state),
-    () => selector(state),
-  );
+  return useSyncExternalStore((cb) => { listeners.add(cb); return () => listeners.delete(cb); }, () => selector(state), () => selector(state));
 }
 
 type ListKey = keyof MasterDB;
-
 export const master = {
-  reset() {
-    setMaster(() => seed());
-  },
+  reset() { setMaster(() => seed()); },
   add<K extends ListKey>(key: K, item: Omit<MasterDB[K][number], "id">): string {
     const id = rid();
-    setMaster(
-      (d) => ({ ...d, [key]: [{ ...(item as any), id }, ...(d[key] as any[])] }) as MasterDB,
-    );
+    setMaster((d) => ({ ...d, [key]: [{ ...(item as any), id }, ...(d[key] as any[])] }) as MasterDB);
     return id;
   },
   update<K extends ListKey>(key: K, id: string, patch: Partial<MasterDB[K][number]>) {
-    setMaster(
-      (d) =>
-        ({
-          ...d,
-          [key]: (d[key] as any[]).map((x) => (x.id === id ? { ...x, ...patch } : x)),
-        }) as MasterDB,
-    );
+    setMaster((d) => ({ ...d, [key]: (d[key] as any[]).map((x) => x.id === id ? { ...x, ...patch } : x) }) as MasterDB);
   },
   remove<K extends ListKey>(key: K, id: string) {
-    setMaster(
-      (d) => ({ ...d, [key]: (d[key] as any[]).filter((x) => x.id !== id) }) as MasterDB,
-    );
+    setMaster((d) => ({ ...d, [key]: (d[key] as any[]).filter((x) => x.id !== id) }) as MasterDB);
   },
 };
 
-// ---- Search helpers ----
-export function norm(s: any): string {
-  return String(s ?? "")
-    .toLowerCase()
-    .normalize("NFD")
-    .replace(/[\u0300-\u036f]/g, "");
-}
-export function tokens(q: string): string[] {
-  return norm(q).split(/\s+/).filter(Boolean);
-}
-export function smartMatch(q: string, ...fields: any[]): boolean {
-  const toks = tokens(q);
-  if (!toks.length) return true;
-  const hay = fields.map(norm).join(" \u0001 ");
-  return toks.every((t) => hay.includes(t));
-}
-
-// ---- Export helpers ----
+export function norm(s: any): string { return String(s ?? "").toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, ""); }
+export function tokens(q: string): string[] { return norm(q).split(/\s+/).filter(Boolean); }
+export function smartMatch(q: string, ...fields: any[]): boolean { const terms = tokens(q); const hay = fields.map(norm).join(" \u0001 "); return !terms.length || terms.every((term) => hay.includes(term)); }
 export function toCSV(rows: Record<string, any>[], columns: { key: string; label: string }[]): string {
-  const esc = (v: any) => {
-    const s = v == null ? "" : String(v);
-    return /[",\n;]/.test(s) ? `"${s.replace(/"/g, '""')}"` : s;
-  };
-  const head = columns.map((c) => esc(c.label)).join(",");
-  const body = rows.map((r) => columns.map((c) => esc(r[c.key])).join(",")).join("\n");
-  return head + "\n" + body;
+  const esc = (v: any) => { const s = v == null ? "" : String(v); return /[",\n;]/.test(s) ? `"${s.replace(/"/g, '""')}"` : s; };
+  return columns.map((c) => esc(c.label)).join(",") + "\n" + rows.map((r) => columns.map((c) => esc(r[c.key])).join(",")).join("\n");
 }
-
-export function downloadCSV(filename: string, csv: string) {
-  const blob = new Blob(["\ufeff" + csv], { type: "text/csv;charset=utf-8;" });
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement("a");
-  a.href = url;
-  a.download = filename;
-  document.body.appendChild(a);
-  a.click();
-  a.remove();
-  URL.revokeObjectURL(url);
-}
-
+export function downloadCSV(filename: string, csv: string) { const blob = new Blob(["\ufeff" + csv], { type: "text/csv;charset=utf-8;" }); const url = URL.createObjectURL(blob); const a = document.createElement("a"); a.href = url; a.download = filename; document.body.appendChild(a); a.click(); a.remove(); URL.revokeObjectURL(url); }
 export function printHTML(title: string, bodyHTML: string, mode: "table" | "agenda" = "table") {
-  const w = window.open("", "_blank", "width=1100,height=800");
-  if (!w) return;
-  const agendaCSS = mode === "agenda" ? `
-    body{font-family:Arial,sans-serif;padding:0;color:#111;background:#fff}
-    h1{display:none}
-    .agenda-model{width:100%;border-collapse:collapse;font-size:12px;margin:0;table-layout:fixed}
-    .agenda-model th,.agenda-model td{border:1px solid #000;padding:2px 6px;text-align:center;vertical-align:middle;height:20px;line-height:1.15;word-wrap:break-word;overflow-wrap:break-word}
-    .agenda-model .date{background:#bfbfbf;font-weight:700;font-size:12px}
-    .agenda-model .highlight,.agenda-model .date.highlight{background:#f6a000}
-    .agenda-model .label{font-weight:400}
-    .agenda-model .theme{font-weight:700}
-    .toolbar{margin:10px;text-align:center}
-    .toolbar button{padding:8px 16px;cursor:pointer;font-size:13px;background:#0066cc;color:#fff;border:none;border-radius:4px;margin:0 4px}
-    @media print{ @page{size:A4 portrait;margin:5mm} .toolbar{display:none} .agenda-model .date{background:#bfbfbf !important}.agenda-model .highlight,.agenda-model .date.highlight{background:#f6a000 !important} *{-webkit-print-color-adjust:exact;print-color-adjust:exact} }
-  ` : "";
-  w.document.write(`<!doctype html><html><head><meta charset="utf-8"><title>${title}</title>
-  <style>
-    @page { size: A4 landscape; margin: 10mm }
-    *{box-sizing:border-box}
-    body{font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;padding:14px;color:#111}
-    h1{font-size:18px;margin:0 0 10px;text-align:center}
-    h2{font-size:13px;margin:14px 0 6px;background:#222;color:#fff;padding:4px 8px;border-radius:3px}
-    table{width:100%;border-collapse:collapse;font-size:11px;margin-bottom:10px;table-layout:fixed}
-    th,td{border:1px solid #444;padding:4px 6px;text-align:left;vertical-align:top;word-wrap:break-word;overflow-wrap:break-word}
-    th{background:#e8e8e8;font-weight:600;font-size:11px}
-    tr:nth-child(even) td{background:#fafafa}
-    .toolbar{margin-bottom:10px;text-align:center}
-    .toolbar button{padding:8px 16px;cursor:pointer;font-size:13px;background:#0066cc;color:#fff;border:none;border-radius:4px;margin:0 4px}
-    @media print{ .toolbar{display:none} h2{background:#222 !important;-webkit-print-color-adjust:exact;print-color-adjust:exact} tr:nth-child(even) td{background:#fafafa !important;-webkit-print-color-adjust:exact;print-color-adjust:exact} th{background:#e8e8e8 !important;-webkit-print-color-adjust:exact;print-color-adjust:exact} table{page-break-inside:auto} tr{page-break-inside:avoid} h2{page-break-after:avoid} }
-    ${agendaCSS}
-  </style></head><body>
-  <div class="toolbar"><button onclick="window.print()">Imprimir / Salvar PDF</button><button onclick="window.close()">Fechar</button></div>
-  <h1>${title}</h1>
-  ${bodyHTML}
-  </body></html>`);
+  const w = window.open("", "_blank", "width=1100,height=800"); if (!w) return;
+  w.document.write(`<!doctype html><html><head><meta charset="utf-8"><title>${title}</title><style>body{font-family:Arial,sans-serif;padding:14px;color:#111}table{width:100%;border-collapse:collapse;font-size:11px}th,td{border:1px solid #444;padding:4px 6px;text-align:left}th{background:#e8e8e8}.toolbar{text-align:center;margin-bottom:10px}.toolbar button{padding:8px 16px;margin:0 4px}@media print{.toolbar{display:none}}${mode === "agenda" ? ".agenda-model td,.agenda-model th{text-align:center}" : ""}</style></head><body><div class="toolbar"><button onclick="window.print()">Imprimir / Salvar PDF</button><button onclick="window.close()">Fechar</button></div><h1>${title}</h1>${bodyHTML}</body></html>`);
   w.document.close();
 }
