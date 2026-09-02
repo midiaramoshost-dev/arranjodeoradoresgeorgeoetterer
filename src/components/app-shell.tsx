@@ -4,8 +4,8 @@ import { actions, useStore } from "@/lib/store";
 import { Button } from "@/components/ui/button";
 
 const nav = [
-  { to: "/admin", label: "Painel", icon: LayoutDashboard, exact: true },
-  { to: "/admin/master", label: "Master (Planilha)", icon: Database },
+  { to: "/admin", label: "Painel master", icon: LayoutDashboard, exact: true },
+  { to: "/admin/master", label: "Gestão completa", icon: Database },
   { to: "/admin/vmm", label: "Vida e Ministério", icon: Sparkles },
   { to: "/#ilustracoes", label: "Ilustrações", icon: Images },
   { to: "/admin/agenda", label: "Agenda", icon: CalendarDays },
@@ -17,69 +17,12 @@ const nav = [
 export function AppShell({ children }: { children: React.ReactNode }) {
   const path = useRouterState({ select: (s) => s.location.pathname });
   const isAdmin = useStore((s) => s.auth.isAdmin);
+  const renderNav = (mobile = false) => nav.map((n) => {
+    const isIllustrationsLink = n.to === "/#ilustracoes";
+    const active = !isIllustrationsLink && (n.exact ? path === n.to : path.startsWith(n.to));
+    const Icon = n.icon;
+    return <Link key={n.to} to={n.to} className={mobile ? `rounded-md p-2 ${active ? "bg-accent" : ""}` : `flex items-center gap-3 rounded-md px-3 py-2 text-sm transition-colors ${active ? "bg-sidebar-accent font-medium text-sidebar-accent-foreground" : "text-sidebar-foreground/80 hover:bg-sidebar-accent/60"}`} aria-label={n.label} title={n.label}><Icon className="h-4 w-4" />{!mobile && n.label}</Link>;
+  });
 
-  return (
-    <div className="min-h-screen flex w-full bg-background">
-      <aside className="hidden md:flex w-64 flex-col border-r border-border bg-sidebar">
-        <div className="px-6 py-6 border-b border-sidebar-border">
-          <div className="flex items-center gap-2">
-            <div className="h-9 w-9 rounded-lg bg-brand text-brand-foreground grid place-items-center font-display text-lg">A</div>
-            <div>
-              <div className="font-display text-lg leading-tight">Arranjo</div>
-              <div className="text-xs text-muted-foreground">Discursos 2026</div>
-            </div>
-          </div>
-        </div>
-        <nav className="flex-1 p-3 space-y-1">
-          {nav.map((n) => {
-            const isIllustrationsLink = n.to === "/#ilustracoes";
-            const active = !isIllustrationsLink && (n.exact ? path === n.to : path.startsWith(n.to));
-            const Icon = n.icon;
-            return (
-              <Link
-                key={n.to}
-                to={n.to}
-                className={`flex items-center gap-3 rounded-md px-3 py-2 text-sm transition-colors ${
-                  active ? "bg-sidebar-accent text-sidebar-accent-foreground font-medium" : "text-sidebar-foreground/80 hover:bg-sidebar-accent/60"
-                }`}
-              >
-                <Icon className="h-4 w-4" /> {n.label}
-              </Link>
-            );
-          })}
-        </nav>
-        <div className="p-3 border-t border-sidebar-border space-y-2">
-          <Link to="/" className="block text-xs text-muted-foreground hover:text-foreground px-3">
-            ← Ver agenda pública
-          </Link>
-          {isAdmin && (
-            <Button variant="ghost" size="sm" className="w-full justify-start" onClick={() => actions.logout()}>
-              <LogOut className="h-4 w-4 mr-2" /> Sair
-            </Button>
-          )}
-        </div>
-      </aside>
-      <div className="flex-1 flex flex-col min-w-0">
-        <header className="md:hidden border-b border-border px-4 h-14 flex items-center justify-between bg-card">
-          <div className="flex items-center gap-2">
-            <Shield className="h-4 w-4 text-brand" />
-            <span className="font-display">Admin</span>
-          </div>
-          <nav className="flex gap-1 overflow-auto">
-            {nav.map((n) => {
-              const isIllustrationsLink = n.to === "/#ilustracoes";
-              const active = !isIllustrationsLink && (n.exact ? path === n.to : path.startsWith(n.to));
-              const Icon = n.icon;
-              return (
-                <Link key={n.to} to={n.to} className={`p-2 rounded-md ${active ? "bg-accent" : ""}`} aria-label={n.label} title={n.label}>
-                  <Icon className="h-4 w-4" />
-                </Link>
-              );
-            })}
-          </nav>
-        </header>
-        <main className="flex-1 overflow-auto">{children}</main>
-      </div>
-    </div>
-  );
+  return <div className="flex min-h-screen w-full bg-background"><aside className="hidden w-64 flex-col border-r border-border bg-sidebar md:flex"><div className="border-b border-sidebar-border px-6 py-6"><div className="flex items-center gap-2"><div className="grid h-9 w-9 place-items-center rounded-lg bg-brand font-display text-lg text-brand-foreground">A</div><div><div className="font-display text-lg leading-tight">Arranjo</div><div className="text-xs text-muted-foreground">Oradores e VMM</div></div></div></div><nav className="flex-1 space-y-1 p-3">{renderNav()}</nav><div className="space-y-2 border-t border-sidebar-border p-3"><Link to="/" className="block px-3 text-xs text-muted-foreground hover:text-foreground">← Ver página pública</Link>{isAdmin && <Button variant="ghost" size="sm" className="w-full justify-start" onClick={() => actions.logout()}><LogOut className="mr-2 h-4 w-4" /> Sair</Button>}</div></aside><div className="flex min-w-0 flex-1 flex-col"><header className="flex h-14 items-center justify-between border-b border-border bg-card px-4 md:hidden"><div className="flex items-center gap-2"><Shield className="h-4 w-4 text-brand" /><span className="font-display">Painel master</span></div><nav className="flex gap-1 overflow-auto">{renderNav(true)}</nav></header><main className="flex-1 overflow-auto">{children}</main></div></div>;
 }
