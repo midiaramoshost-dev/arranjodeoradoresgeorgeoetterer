@@ -1,34 +1,24 @@
-import { useMemo, useState } from "react";
-import { createFileRoute, Link } from "@tanstack/react-router";
-import { CalendarDays, ChevronDown, Clock3, FilterX, MapPin, Search, ShieldCheck, Users } from "lucide-react";
-import { useMaster } from "@/lib/master-store";
+import { createFileRoute } from "@tanstack/react-router";
 
-export const Route = createFileRoute("/")({ head: () => ({ meta: [{ title: "Arranjo de oradores e Vida e Ministério" }, { name: "description", content: "Programação de discursos, oradores e designações das congregações." }] }), component: Home });
+export const Route = createFileRoute("/")({
+  head: () => ({
+    meta: [
+      { title: "Arranjo de oradores e Vida e Ministério" },
+      {
+        name: "description",
+        content: "Arranjo de oradores e Vida e Ministério.",
+      },
+    ],
+  }),
+  component: Home,
+});
 
 function Home() {
-  const { agenda, themes, oradoresLocais, congregacoes } = useMaster((s) => s);
-  const [search, setSearch] = useState("");
-  const [selectedMonth, setSelectedMonth] = useState("Todos os meses");
-  const [selectedCongregation, setSelectedCongregation] = useState("Todas as congregações");
-  const activeCongregations = useMemo(() => congregacoes.filter((c) => c.active), [congregacoes]);
-  const months = useMemo(() => Array.from(new Set(agenda.map((item) => item.mes).filter(Boolean))), [agenda]);
-  const congregationNames = useMemo(() => activeCongregations.map((c) => c.name), [activeCongregations]);
-  const filteredAgenda = useMemo(() => agenda.filter((item) => {
-    const q = search.trim().toLocaleLowerCase("pt-BR");
-    const month = selectedMonth === "Todos os meses" || item.mes === selectedMonth;
-    const cong = selectedCongregation === "Todas as congregações" || item.congregacao === selectedCongregation;
-    const content = [item.data, item.orador, item.tema, item.temaNum, item.congregacao, item.presidente, item.leitor, item.obs].join(" ").toLocaleLowerCase("pt-BR");
-    const isAllowed = activeCongregations.length === 0 || activeCongregations.some((c) => c.name === item.congregacao);
-    return isAllowed && month && cong && (!q || content.includes(q));
-  }), [agenda, search, selectedMonth, selectedCongregation, activeCongregations]);
-  const grouped = useMemo(() => filteredAgenda.reduce<Record<string, typeof agenda>>((groups, item) => { (groups[item.mes || "Sem mês"] ??= []).push(item); return groups; }, {}), [filteredAgenda]);
-  const hasFilters = Boolean(search.trim()) || selectedMonth !== "Todos os meses" || selectedCongregation !== "Todas as congregações";
-  const clearFilters = () => { setSearch(""); setSelectedMonth("Todos os meses"); setSelectedCongregation("Todas as congregações"); };
-  return <div className="min-h-screen bg-[#f7f4ec] text-[#173b40] selection:bg-[#d6aa62] selection:text-[#173b40]">
-    <header className="sticky top-0 z-20 border-b border-[#31565a] bg-[#173b40]/95 text-[#f7f4ec] shadow-sm backdrop-blur"><div className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-5 py-4 md:px-8"><Link to="/" className="flex items-center gap-3"><div className="grid h-11 w-11 place-items-center rounded-xl bg-[#d6aa62] font-display text-2xl text-[#173b40]">A</div><div><p className="font-display text-xl leading-none">Arranjo</p><p className="mt-1 text-[10px] uppercase tracking-[0.18em] text-[#d8d1bf] sm:text-xs">Oradores e Vida e Ministério</p></div></Link><Link to="/admin/master" className="inline-flex items-center gap-2 rounded-lg border border-[#d8d1bf]/40 px-3 py-2 text-xs hover:bg-white/10 sm:text-sm"><ShieldCheck className="h-4 w-4" /> Painel adm master</Link></div></header>
-    <main className="mx-auto max-w-7xl px-5 py-10 md:px-8 md:py-14"><section className="mb-10 grid items-end gap-8 lg:grid-cols-[1fr_auto]"><div className="max-w-3xl"><p className="mb-3 text-sm font-semibold uppercase tracking-[0.2em] text-[#a47b35]">Programação 2026</p><h1 className="font-display text-4xl leading-tight md:text-6xl">Arranjo de oradores e Vida e Ministério</h1><p className="mt-4 max-w-2xl text-base leading-relaxed text-[#5c6b69] md:text-lg">Consulte a programação liberada de cada congregação e todas as designações das reuniões.</p></div><div className="rounded-2xl border border-[#d9d0bd] bg-white/70 px-5 py-4 text-sm text-[#5c6b69] shadow-sm"><span className="font-semibold text-[#173b40]">Agenda pública</span><br />Confira os detalhes antes da reunião.</div></section>
-    <section className="mb-10 grid gap-4 sm:grid-cols-3">{[[CalendarDays, filteredAgenda.length, "programações registradas"], [Users, oradoresLocais.length, "oradores locais"], [Clock3, themes.length, "temas disponíveis"]].map(([Icon, value, label]) => <div key={String(label)} className="rounded-2xl border border-[#d9d0bd] bg-white p-5 shadow-sm"><Icon className="mb-4 h-5 w-5 text-[#a47b35]" /><p className="text-3xl font-semibold">{String(value)}</p><p className="mt-1 text-sm text-[#6d7773]">{String(label)}</p></div>)}</section>
-    <section className="mb-10 rounded-2xl border border-[#d9d0bd] bg-white p-4 shadow-sm md:p-5"><div className="grid gap-3 md:grid-cols-[1fr_210px_240px_auto]"><label className="relative"><span className="sr-only">Buscar na agenda</span><Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-[#8b938e]" /><input value={search} onChange={(e) => setSearch(e.target.value)} placeholder="Buscar por tema ou orador" className="h-11 w-full rounded-lg border border-[#d9d0bd] bg-[#fcfbf7] pl-10 pr-3 text-sm outline-none" /></label><label className="relative"><span className="sr-only">Filtrar por mês</span><select value={selectedMonth} onChange={(e) => setSelectedMonth(e.target.value)} className="h-11 w-full rounded-lg border border-[#d9d0bd] bg-[#fcfbf7] px-3 text-sm"><option>Todos os meses</option>{months.map((m) => <option key={m}>{m}</option>)}</select><ChevronDown className="pointer-events-none absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2" /></label><label><span className="sr-only">Filtrar por congregação</span><select value={selectedCongregation} onChange={(e) => setSelectedCongregation(e.target.value)} className="h-11 w-full rounded-lg border border-[#d9d0bd] bg-[#fcfbf7] px-3 text-sm"><option>Todas as congregações</option>{congregationNames.map((name) => <option key={name}>{name}</option>)}</select></label>{hasFilters && <button type="button" onClick={clearFilters} className="inline-flex h-11 items-center justify-center gap-2 rounded-lg border border-[#d9d0bd] px-3 text-sm"><FilterX className="h-4 w-4" /> Limpar</button>}</div><p className="mt-3 text-xs text-[#6d7773]">{filteredAgenda.length} resultado(s) encontrado(s)</p></section>
-    <section className="space-y-10">{Object.entries(grouped).map(([month, items]) => <div key={month}><div className="mb-4 flex items-center gap-3"><h2 className="font-display text-3xl">{month}</h2><div className="h-px flex-1 bg-[#d9d0bd]" /></div><div className="grid gap-4 lg:grid-cols-2">{items.map((item, i) => <article key={`${item.data}-${item.tema}-${i}`} className="rounded-2xl border border-[#d9d0bd] bg-white p-5 shadow-sm"><div className="flex items-start justify-between gap-3"><div><p className="text-sm font-semibold uppercase tracking-[0.12em] text-[#a47b35]">{item.data}</p><h3 className="mt-2 font-display text-2xl">{item.tema || "Programação a definir"}</h3></div>{item.temaNum && <span className="rounded-full bg-[#f0e7d4] px-3 py-1 text-xs font-semibold">Tema {item.temaNum}</span>}</div><div className="mt-5 grid gap-3 border-t border-[#eee9dd] pt-4 text-sm text-[#5c6b69] sm:grid-cols-2"><p><strong>Orador:</strong> {item.orador || "A definir"}</p><p><strong>Presidente:</strong> {item.presidente || "A definir"}</p><p><strong>Leitor:</strong> {item.leitor || "A definir"}</p><p className="flex gap-1"><MapPin className="h-4 w-4 text-[#a47b35]" />{item.congregacao || "Local a definir"}</p></div>{(item.telefone || item.obs) && <div className="mt-4 rounded-lg bg-[#f7f4ec] px-3 py-2 text-xs">{item.telefone}{item.telefone && item.obs ? " · " : ""}{item.obs}</div>}</article>)}</div></div>)}{!filteredAgenda.length && <div className="rounded-2xl border border-dashed border-[#cfc3aa] bg-white p-10 text-center text-[#6d7773]"><Search className="mx-auto h-8 w-8 text-[#a47b35]" /><p className="mt-3 font-medium">Nenhuma programação encontrada</p></div>}</section></main><footer className="border-t border-[#d9d0bd] bg-[#173b40] px-5 py-8 text-center text-sm text-[#d8d1bf]">Arranjo de oradores e Vida e Ministério · 2026</footer>
-  </div>;
+  return (
+    <main className="flex min-h-screen items-center justify-center bg-[#f7f4ec] px-5 text-center text-[#173b40]">
+      <h1 className="font-display text-4xl leading-tight md:text-6xl">
+        Arranjo de oradores e Vida e Ministério
+      </h1>
+    </main>
+  );
 }
