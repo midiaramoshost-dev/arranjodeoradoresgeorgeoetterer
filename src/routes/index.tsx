@@ -95,14 +95,34 @@ function Home() {
       </header>
 
       <main className="mx-auto max-w-7xl px-5 py-10 md:px-8 md:py-14">
-        <section className="mb-10 max-w-3xl">
-          <p className="mb-3 text-sm font-semibold uppercase tracking-[0.2em] text-[#a47b35]">Programação 2026</p>
-          <h1 className="font-display text-4xl leading-tight text-[#173b40] md:text-6xl">
-            Agenda de discursos e reuniões
-          </h1>
-          <p className="mt-4 max-w-2xl text-base leading-relaxed text-[#5c6b69] md:text-lg">
-            Consulte a programação completa, os temas dos discursos e as designações de cada reunião.
-          </p>
+        <section className="mb-10 grid items-center gap-10 lg:grid-cols-[1fr_380px]">
+          <div className="max-w-3xl">
+            <p className="mb-3 text-sm font-semibold uppercase tracking-[0.2em] text-[#a47b35]">Programação 2026</p>
+            <h1 className="font-display text-4xl leading-tight text-[#173b40] md:text-6xl">
+              Agenda de discursos e reuniões
+            </h1>
+            <p className="mt-4 max-w-2xl text-base leading-relaxed text-[#5c6b69] md:text-lg">
+              Consulte a programação completa, os temas dos discursos e as designações de cada reunião.
+            </p>
+          </div>
+          <div className="relative overflow-hidden rounded-[2rem] border border-[#d9d0bd] bg-[#e9dfca] p-6 shadow-sm" aria-label="Ilustração de uma reunião comunitária" role="img">
+            <div className="absolute -right-10 -top-10 h-32 w-32 rounded-full bg-[#d6aa62]/35" />
+            <div className="absolute -bottom-12 -left-8 h-32 w-32 rounded-full bg-[#173b40]/10" />
+            <svg viewBox="0 0 360 230" className="relative h-auto w-full" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <path d="M35 190H325" stroke="#A47B35" strokeWidth="4" strokeLinecap="round" />
+              <path d="M68 190V107L180 47L292 107V190" fill="#F7F4EC" stroke="#173B40" strokeWidth="5" strokeLinejoin="round" />
+              <path d="M48 108L180 34L312 108" stroke="#173B40" strokeWidth="7" strokeLinecap="round" strokeLinejoin="round" />
+              <path d="M158 190V135C158 123.954 166.954 115 178 115H182C193.046 115 202 123.954 202 135V190" fill="#D6AA62" stroke="#173B40" strokeWidth="5" />
+              <path d="M99 105V136M261 105V136" stroke="#A47B35" strokeWidth="5" strokeLinecap="round" />
+              <path d="M88 105H110M250 105H272" stroke="#A47B35" strokeWidth="5" strokeLinecap="round" />
+              <circle cx="180" cy="79" r="12" fill="#D6AA62" stroke="#173B40" strokeWidth="4" />
+              <path d="M119 190V166C119 157.716 125.716 151 134 151C142.284 151 149 157.716 149 166V190M211 190V166C211 157.716 217.716 151 226 151C234.284 151 241 157.716 241 166V190" stroke="#173B40" strokeWidth="5" strokeLinecap="round" />
+              <circle cx="134" cy="145" r="8" fill="#A47B35" />
+              <circle cx="226" cy="145" r="8" fill="#A47B35" />
+              <path d="M180 23V35M174 29H186" stroke="#A47B35" strokeWidth="4" strokeLinecap="round" />
+            </svg>
+            <p className="relative mt-2 text-center font-display text-xl text-[#173b40]">Uma agenda para servir e participar</p>
+          </div>
         </section>
 
         <section className="mb-10 grid gap-4 sm:grid-cols-3">
