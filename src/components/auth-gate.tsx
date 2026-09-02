@@ -17,7 +17,7 @@ function getSavedLogin() {
 export function AuthGate({ children }: { children: React.ReactNode }) {
   const isAdmin = useStore((s) => s.auth.isAdmin);
   const hasPassword = useStore((s) => !!s.settings.adminPasswordHash);
-  const [login, setLogin] = useState("");
+  const [login, setLogin] = useState(() => getSavedLogin());
   const [pw, setPw] = useState("");
   const [pw2, setPw2] = useState("");
   const [loading, setLoading] = useState(false);
