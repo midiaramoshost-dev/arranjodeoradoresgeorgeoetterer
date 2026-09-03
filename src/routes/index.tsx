@@ -1,13 +1,12 @@
-import { createFileRoute, Navigate } from "@tanstack/react-router";
-import { AuthGate } from "@/components/auth-gate";
+import { createFileRoute } from "@tanstack/react-router";
 
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "Login | Painel Administrativo Master" },
+      { title: "George Oetterer" },
       {
         name: "description",
-        content: "Acesse o painel geral do administrador master.",
+        content: "Aplicação George Oetterer integrada ao projeto.",
       },
     ],
   }),
@@ -16,8 +15,14 @@ export const Route = createFileRoute("/")({
 
 function Home() {
   return (
-    <AuthGate>
-      <Navigate to="/admin/master" replace />
-    </AuthGate>
+    <main className="fixed inset-0 z-50 h-screen w-screen overflow-hidden bg-white">
+      <iframe
+        src="https://georgeoetterer.lovable.app/"
+        title="George Oetterer"
+        className="h-full w-full border-0 bg-white"
+        allow="camera; microphone; clipboard-read; clipboard-write; fullscreen"
+        referrerPolicy="strict-origin-when-cross-origin"
+      />
+    </main>
   );
 }
