@@ -33,6 +33,14 @@ type DB = {
   settings: { adminPasswordHash: string | null };
 };
 
+type ImportedSchedule = Schedule & {
+  arranjoLimpeza?: string;
+  arranjoDaLimpeza?: string;
+  "arranjo_da_limpeza"?: string;
+  cleaning_arrangement?: string;
+  limpeza?: string;
+};
+
 const KEY = "arranjo_db_v1";
 
 const initial = (): DB => ({
@@ -48,6 +56,31 @@ let state: DB = initial();
 let loaded = false;
 const listeners = new Set<() => void>();
 
+function normalizeSchedule(schedule: ImportedSchedule): Schedule {
+  const {
+    arranjoLimpeza,
+    arranjoDaLimpeza,
+    arranjo_da_limpeza: arranjoDaLimpezaSnakeCase,
+    cleaning_arrangement: cleaningArrangementSnakeCase,
+    limpeza,
+    ...currentSchedule
+  } = schedule;
+
+  const cleaningArrangement = [
+    currentSchedule.cleaningArrangement,
+    arranjoLimpeza,
+    arranjoDaLimpeza,
+    arranjoDaLimpezaSnakeCase,
+    cleaningArrangementSnakeCase,
+    limpeza,
+  ].find((value) => typeof value === "string" && value.trim().length > 0);
+
+  return {
+    ...currentSchedule,
+    cleaningArrangement: cleaningArrangement?.trim() || undefined,
+  };
+}
+
 function load() {
   if (loaded) return;
   loaded = true;
@@ -55,10 +88,16 @@ function load() {
   try {
     const raw = localStorage.getItem(KEY);
     if (raw) {
-      const parsed = JSON.parse(raw) as Partial<DB>;
-      state = { ...initial(), ...parsed, auth: { isAdmin: false } };
+      const parsed = JSON.parse(raw) as Partial<DB> & { schedules?: ImportedSchedule[] };
+      state = {
+        ...initial(),
+        ...parsed,
+        schedules: Array.isArray(parsed.schedules) ? parsed.schedules.map(normalizeSchedule) : [],
+        auth: { isAdmin: false },
+      };
       // ensure themes seeded if empty
       if (!state.themes || state.themes.length === 0) state.themes = initial().themes;
+      persist();
     }
   } catch {}
 }
