@@ -8,10 +8,21 @@ import { Shield, Lock, UserRound } from "lucide-react";
 import { toast } from "sonner";
 
 const ADMIN_LOGIN_KEY = "admin-login";
+const ADMIN_LOGIN = "ramos660@hotmail.com";
+
+function normalizeLogin(value: string) {
+  return value.trim().toLocaleLowerCase("pt-BR");
+}
 
 function getSavedLogin() {
-  if (typeof window === "undefined") return "admin";
-  return window.localStorage.getItem(ADMIN_LOGIN_KEY) ?? "admin";
+  if (typeof window === "undefined") return ADMIN_LOGIN;
+
+  const savedLogin = window.localStorage.getItem(ADMIN_LOGIN_KEY);
+  if (!savedLogin || normalizeLogin(savedLogin) === "admin") {
+    return ADMIN_LOGIN;
+  }
+
+  return savedLogin;
 }
 
 export function AuthGate({ children }: { children: React.ReactNode }) {
@@ -27,7 +38,7 @@ export function AuthGate({ children }: { children: React.ReactNode }) {
   const submit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    const normalizedLogin = login.trim();
+    const normalizedLogin = normalizeLogin(login);
 
     if (normalizedLogin.length < 3) {
       toast.error("Informe um login válido");
@@ -37,8 +48,10 @@ export function AuthGate({ children }: { children: React.ReactNode }) {
     if (!pw) return;
 
     if (hasPassword) {
-      const savedLogin = getSavedLogin();
-      if (normalizedLogin.toLocaleLowerCase("pt-BR") !== savedLogin.toLocaleLowerCase("pt-BR")) {
+      const savedLogin = normalizeLogin(getSavedLogin());
+      const isKnownLogin = normalizedLogin === normalizeLogin(ADMIN_LOGIN) || normalizedLogin === savedLogin;
+
+      if (!isKnownLogin) {
         toast.error("Login ou senha incorretos");
         return;
       }
@@ -63,7 +76,7 @@ export function AuthGate({ children }: { children: React.ReactNode }) {
       return;
     }
 
-    if (!hasPassword && typeof window !== "undefined") {
+    if (typeof window !== "undefined") {
       window.localStorage.setItem(ADMIN_LOGIN_KEY, normalizedLogin);
     }
 
@@ -92,11 +105,13 @@ export function AuthGate({ children }: { children: React.ReactNode }) {
                 <UserRound className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
                 <Input
                   id="login"
-                  type="text"
+                  type="email"
                   className="pl-9"
                   value={login}
                   onChange={(e) => setLogin(e.target.value)}
                   autoComplete="username"
+                  autoCapitalize="none"
+                  spellCheck={false}
                   autoFocus
                   required
                 />
@@ -142,7 +157,7 @@ export function AuthGate({ children }: { children: React.ReactNode }) {
             </Button>
 
             <p className="text-xs text-center text-muted-foreground">
-              Use o login e a senha cadastrados neste dispositivo.
+              Use o login {ADMIN_LOGIN} e a senha cadastrada neste dispositivo.
             </p>
           </form>
         </CardContent>
