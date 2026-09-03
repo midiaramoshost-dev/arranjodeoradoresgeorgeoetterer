@@ -11,7 +11,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList } from "@/components/ui/command";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
-import { Plus, Pencil, Trash2, CalendarDays, MapPin, User, ChevronsUpDown, Check } from "lucide-react";
+import { Plus, Pencil, Trash2, CalendarDays, MapPin, User, ChevronsUpDown, Check, Sparkles } from "lucide-react";
 import { toast } from "sonner";
 import { formatDate } from "@/lib/format";
 import { cn } from "@/lib/utils";
@@ -97,6 +97,7 @@ function Agenda() {
                         <div className="flex items-center gap-2"><User className="h-3.5 w-3.5" /> <strong className="font-medium text-foreground">{sp?.name || "Sem orador"}</strong>{co && ` · ${co.name}`}</div>
                         {ch && <div className="flex items-center gap-2"><User className="h-3.5 w-3.5 opacity-60" /> Presidente: {ch.name}</div>}
                         {s.location && <div className="flex items-center gap-2"><MapPin className="h-3.5 w-3.5" /> {s.location}</div>}
+                        {s.cleaningArrangement && <div className="flex items-center gap-2 text-foreground"><Sparkles className="h-3.5 w-3.5 text-brand" /> <span><strong className="font-medium">Arranjo de limpeza:</strong> {s.cleaningArrangement}</span></div>}
                         {s.notes && <div className="text-xs italic mt-1">"{s.notes}"</div>}
                       </div>
                     </div>
@@ -132,6 +133,7 @@ function ScheduleForm({ initial, onSave, onCancel }: { initial: Schedule; onSave
   const [chairmanId, setChairmanId] = useState<string | undefined>(initial.chairmanId);
   const [congregationId, setCong] = useState<string | undefined>(initial.congregationId);
   const [location, setLocation] = useState(initial.location || "");
+  const [cleaningArrangement, setCleaningArrangement] = useState(initial.cleaningArrangement || "");
   const [notes, setNotes] = useState(initial.notes || "");
   const [themeOpen, setThemeOpen] = useState(false);
   const theme = themes.find((t) => t.num === themeNum);
@@ -147,6 +149,7 @@ function ScheduleForm({ initial, onSave, onCancel }: { initial: Schedule; onSave
           chairmanId,
           congregationId,
           location: location.trim() || undefined,
+          cleaningArrangement: cleaningArrangement.trim() || undefined,
           notes: notes.trim() || undefined,
         });
       }}
@@ -219,6 +222,11 @@ function ScheduleForm({ initial, onSave, onCancel }: { initial: Schedule; onSave
           </Select>
         </div>
         <div className="space-y-2"><Label>Local / Salão</Label><Input value={location} onChange={(e) => setLocation(e.target.value)} maxLength={120} placeholder="Ex.: Salão Central" /></div>
+      </div>
+
+      <div className="space-y-2">
+        <Label>Arranjo de limpeza</Label>
+        <Input value={cleaningArrangement} onChange={(e) => setCleaningArrangement(e.target.value)} maxLength={200} placeholder="Ex.: Grupo 1 — antes e depois da reunião" />
       </div>
 
       <div className="space-y-2"><Label>Observações</Label><Textarea value={notes} onChange={(e) => setNotes(e.target.value)} maxLength={500} rows={2} /></div>

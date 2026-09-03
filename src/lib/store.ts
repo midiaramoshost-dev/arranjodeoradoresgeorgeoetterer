@@ -20,6 +20,7 @@ export type Schedule = {
   chairmanId?: string;
   congregationId?: string;
   location?: string;
+  cleaningArrangement?: string;
   notes?: string;
 };
 
