@@ -45,7 +45,7 @@
 }
 
 :root {
-  --radius: 0.75rem;
+  --radius: 0.85rem;
   /* warm parchment + deep teal — sober, ecclesial, modern */
   --background: oklch(0.985 0.008 85);
   --foreground: oklch(0.22 0.03 230);
@@ -66,9 +66,9 @@
   --border: oklch(0.9 0.02 85);
   --input: oklch(0.93 0.015 85);
   --ring: oklch(0.55 0.08 200);
-  --brand: oklch(0.45 0.09 195);
+  --brand: oklch(0.42 0.09 195);
   --brand-foreground: oklch(0.985 0.008 85);
-  --sidebar: oklch(0.97 0.012 85);
+  --sidebar: oklch(0.975 0.01 85);
   --sidebar-foreground: oklch(0.22 0.03 230);
   --sidebar-primary: oklch(0.38 0.07 200);
   --sidebar-primary-foreground: oklch(0.985 0.008 85);
@@ -116,5 +116,17 @@
     @apply bg-background text-foreground antialiased;
     font-family: var(--font-sans);
   }
-  h1, h2, h3, .font-display { font-family: var(--font-display); letter-spacing: -0.02em; }
+  h1, h2, h3, .font-display {
+    font-family: var(--font-display);
+    letter-spacing: -0.02em;
+  }
+}
+
+/* Custom scrollbar hiding helper */
+.scrollbar-none::-webkit-scrollbar {
+  display: none;
+}
+.scrollbar-none {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 }
