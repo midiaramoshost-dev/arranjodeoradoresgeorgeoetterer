@@ -19,18 +19,18 @@ import {
 
 export const Route = createFileRoute("/")({
   head: () => ({
-    meta: [
-      { title: "Arranjo Congregacional - George Oetterer" },
+    meta: [ 
+      { title: "Programa de Reuniões e Oradores" },
       {
         name: "description",
-        content: "Portal de consulta pública de discursos, oradores e programa de Vida e Ministério Cristão.",
+        content: "Consulte de forma rápida e prática as designações de Vida e Ministério Cristão, a agenda de discursos públicos e a lista de oradores.",
       },
     ],
   }),
   component: Home,
 });
 
-function Home() {
+function Home() { 
   const [activeTab, setActiveTab] = useState<"vmm" | "oradores" | "agenda">("vmm");
   const [searchQuery, setSearchQuery] = useState("");
 
@@ -155,7 +155,7 @@ function Home() {
       <section className="bg-gradient-to-r from-blue-700 to-indigo-800 text-white py-12 px-4 text-center shadow-inner">
         <div className="max-w-4xl mx-auto">
           <h1 className="text-3xl sm:text-4xl font-extrabold tracking-tight mb-3">
-            Programa de Reuniões & Oradores
+            Programa de Reuniões e Oradores
           </h1>
           <p className="text-blue-100 text-base sm:text-lg max-w-2xl mx-auto font-light">
             Consulte de forma rápida e prática as designações de Vida e Ministério Cristão, a agenda de discursos públicos e a lista de oradores.
