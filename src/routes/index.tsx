@@ -14,20 +14,21 @@ import {
   Printer,
   ChevronRight,
   Phone,
-  BookOpenCheck
+  BookOpenCheck,
+  UserPlus
 } from "lucide-react";
 
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [ 
       { title: "Programa de Reuniões e Oradores" },
-      {
+      { 
         name: "description",
         content: "Consulte de forma rápida e prática as designações de Vida e Ministério Cristão, a agenda de discursos públicos e a lista de oradores.",
       },
     ],
   }),
-  component: Home,
+  component: Home, 
 });
 
 function Home() { 
@@ -141,13 +142,15 @@ function Home() {
               <span className="text-[10px] text-slate-500 font-medium tracking-wider uppercase">Arranjos Congregacionais</span>
             </div>
           </div>
-          <Link
-            to="/admin"
-            className="flex items-center gap-2 rounded-lg bg-blue-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-blue-700 transition-colors"
-          >
-            <Shield className="h-4 w-4" />
-            <span>Painel de Gestão</span>
-          </Link>
+          <div className="flex items-center gap-2">
+            <Link
+              to="/admin"
+              className="flex items-center gap-2 rounded-lg bg-blue-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-blue-700 transition-colors"
+            >
+              <Shield className="h-4 w-4" />
+              <span>Painel de Gestão</span>
+            </Link>
+          </div>
         </div>
       </header>
 
@@ -157,9 +160,18 @@ function Home() {
           <h1 className="text-3xl sm:text-4xl font-extrabold tracking-tight mb-3">
             Programa de Reuniões e Oradores
           </h1>
-          <p className="text-blue-100 text-base sm:text-lg max-w-2xl mx-auto font-light">
+          <p className="text-blue-100 text-base sm:text-lg max-w-2xl mx-auto font-light mb-6">
             Consulte de forma rápida e prática as designações de Vida e Ministério Cristão, a agenda de discursos públicos e a lista de oradores.
           </p>
+          <div className="flex flex-wrap justify-center gap-3">
+            <Link
+              to="/admin"
+              className="inline-flex items-center gap-2 rounded-lg bg-white px-6 py-3 text-sm font-bold text-blue-700 shadow-md hover:bg-blue-50 transition-all transform hover:-translate-y-0.5"
+            >
+              <UserPlus className="h-4 w-4" />
+              <span>Cadastrar / Acessar Painel</span>
+            </Link>
+          </div>
         </div>
       </section>
 
