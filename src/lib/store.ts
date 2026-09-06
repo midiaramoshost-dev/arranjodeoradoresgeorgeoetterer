@@ -24,12 +24,22 @@ export type Schedule = {
   notes?: string;
 };
 
+// New type for multi‑user support
+export type User = {
+  id: string;
+  email: string;
+  passwordHash: string;
+  isAdmin: boolean;
+  congregationId?: string;
+};
+
 type DB = {
   themes: Theme[];
   speakers: Speaker[];
   congregations: Congregation[];
   schedules: Schedule[];
-  auth: { isAdmin: boolean };
+  users: User[]; // <-- added
+  auth: { userId?: string; isAdmin: boolean };
   settings: { adminPasswordHash: string | null };
 };
 
@@ -48,6 +58,7 @@ const initial = (): DB => ({
   speakers: [],
   congregations: [],
   schedules: [],
+  users: [], // <-- empty list of users
   auth: { isAdmin: false },
   settings: { adminPasswordHash: null },
 });
@@ -181,15 +192,38 @@ export const actions = {
   deleteSchedule(idv: string) {
     setState((d) => ({ ...d, schedules: d.schedules.filter((x) => x.id !== idv) }));
   },
-  // Auth
+  // Users (multi‑user support)
+  async registerUser(email: string, password: string, isAdmin = false, congregationId?: string) {
+    const hash = await sha256(password);
+    setState((d) => ({
+      ...d,
+      users: [...d.users, { id: id(), email: email.toLowerCase(), passwordHash: hash, isAdmin, congregationId }],
+    }));
+  },
+  async login(email: string, password: string): Promise<boolean> {
+    const d = getState();
+    const user = d.users.find((u) => u.email === email.toLowerCase());
+    if (!user) return false;
+    const hash = await sha256(password);
+    if (hash !== user.passwordHash) return false;
+    setState((s) => ({
+      ...s,
+      auth: { userId: user.id, isAdmin: user.isAdmin },
+    }));
+    return true;
+  },
+  logout() {
+    setState((d) => ({ ...d, auth: { isAdmin: false } }));
+  },
+  // Legacy admin‑only password (kept for backward compatibility)
   async setAdminPassword(pw: string) {
     const hash = await sha256(pw);
     setState((d) => ({ ...d, settings: { ...d.settings, adminPasswordHash: hash } }));
   },
-  async login(pw: string): Promise<boolean> {
+  async legacyLogin(pw: string): Promise<boolean> {
+    // Used only when there are no registered users yet (first‑time admin setup)
     const d = getState();
     const hash = await sha256(pw);
-    // first time: set this password
     if (!d.settings.adminPasswordHash) {
       setState((s) => ({ ...s, settings: { ...s.settings, adminPasswordHash: hash }, auth: { isAdmin: true } }));
       return true;
@@ -199,9 +233,6 @@ export const actions = {
       return true;
     }
     return false;
-  },
-  logout() {
-    setState((d) => ({ ...d, auth: { isAdmin: false } }));
   },
 };
 

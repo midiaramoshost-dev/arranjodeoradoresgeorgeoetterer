@@ -28,6 +28,7 @@ function getSavedLogin() {
 export function AuthGate({ children }: { children: React.ReactNode }) {
   const isAdmin = useStore((s) => s.auth.isAdmin);
   const hasPassword = useStore((s) => !!s.settings.adminPasswordHash);
+  const usersExist = useStore((s) => s.users.length > 0);
   const [login, setLogin] = useState(() => getSavedLogin());
   const [pw, setPw] = useState("");
   const [pw2, setPw2] = useState("");
@@ -47,28 +48,21 @@ export function AuthGate({ children }: { children: React.ReactNode }) {
 
     if (!pw) return;
 
-    if (hasPassword) {
-      const savedLogin = normalizeLogin(getSavedLogin());
-      const isKnownLogin = normalizedLogin === normalizeLogin(ADMIN_LOGIN) || normalizedLogin === savedLogin;
-
-      if (!isKnownLogin) {
-        toast.error("Login ou senha incorretos");
-        return;
-      }
-    }
-
-    if (!hasPassword && pw !== pw2) {
-      toast.error("As senhas não conferem");
+    // First‑time setup – no users registered yet
+    if (!usersExist) {
+      // Register the first user as admin
+      setLoading(true);
+      await actions.registerUser(normalizedLogin, pw, true);
+      await actions.login(normalizedLogin, pw);
+      setLoading(false);
+      window.localStorage.setItem(ADMIN_LOGIN_KEY, normalizedLogin);
+      toast.success("Administrador criado e logado");
       return;
     }
 
-    if (pw.length < 4) {
-      toast.error("Senha muito curta");
-      return;
-    }
-
+    // Normal login flow for existing users
     setLoading(true);
-    const ok = await actions.login(pw);
+    const ok = await actions.login(normalizedLogin, pw);
     setLoading(false);
 
     if (!ok) {
@@ -80,7 +74,7 @@ export function AuthGate({ children }: { children: React.ReactNode }) {
       window.localStorage.setItem(ADMIN_LOGIN_KEY, normalizedLogin);
     }
 
-    toast.success("Bem-vindo");
+    toast.success("Bem‑vindo");
   };
 
   return (
@@ -134,26 +128,14 @@ export function AuthGate({ children }: { children: React.ReactNode }) {
               </div>
             </div>
 
-            {!hasPassword && (
-              <div className="space-y-2">
-                <Label htmlFor="pw2">Confirmar senha</Label>
-                <Input
-                  id="pw2"
-                  type="password"
-                  value={pw2}
-                  onChange={(e) => setPw2(e.target.value)}
-                  autoComplete="new-password"
-                  required
-                />
-              </div>
-            )}
+            {/* No longer needed – password confirmation is handled by registerUser when first user is created */}
 
             <Button
               type="submit"
               className="w-full bg-brand text-brand-foreground hover:bg-brand/90"
               disabled={loading}
             >
-              {loading ? "Entrando..." : hasPassword ? "Entrar" : "Criar acesso e entrar"}
+              {loading ? "Entrando..." : usersExist ? "Entrar" : "Criar admin e entrar"}
             </Button>
 
             <p className="text-xs text-center text-muted-foreground">
