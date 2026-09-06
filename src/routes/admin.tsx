@@ -1,4 +1,4 @@
-import { createFileRoute, Outlet, useRouterState } from "@tanstack/react-router";
+import { createFileRoute, Outlet } from "@tanstack/react-router";
 import { AppShell } from "@/components/app-shell";
 import { AuthGate } from "@/components/auth-gate";
 
@@ -7,19 +7,11 @@ export const Route = createFileRoute("/admin")({
 });
 
 function AdminLayout() {
-  const pathname = useRouterState({
-    select: (state) => state.location.pathname,
-  });
-
-  const content = (
-    <AppShell>
-      <Outlet />
-    </AppShell>
+  return (
+    <AuthGate>
+      <AppShell>
+        <Outlet />
+      </AppShell>
+    </AuthGate>
   );
-
-  if (pathname === "/admin/vmm" || pathname.startsWith("/admin/vmm/")) {
-    return content;
-  }
-
-  return <AuthGate>{content}</AuthGate>;
 }
