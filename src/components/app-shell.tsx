@@ -2,11 +2,9 @@ import { Link, useRouterState } from "@tanstack/react-router";
 import {
   CalendarDays,
   BookOpen,
-  Users,
   MapPin,
   LayoutDashboard,
   LogOut,
-  Shield,
   Database,
   Sparkles,
   Images,
@@ -28,7 +26,6 @@ const navigationGroups = [
     items: [
       { to: "/admin/agenda", label: "Agenda", icon: CalendarDays },
       { to: "/admin/temas", label: "Temas", icon: BookOpen },
-      { to: "/admin/oradores", label: "Oradores", icon: Users },
       { to: "/admin/congregacoes", label: "Congregações", icon: MapPin },
     ],
   },
@@ -63,12 +60,12 @@ export function AppShell({ children }: { children: React.ReactNode }) {
         to={n.to}
         className={
           mobile
-            ? `flex shrink-0 items-center gap-2 rounded-lg px-4 py-2.5 text-sm font-medium transition-all ${ 
+            ? `flex shrink-0 items-center gap-2 rounded-lg px-4 py-2.5 text-sm font-medium transition-all ${
                 active
                   ? "bg-brand text-brand-foreground shadow-md shadow-brand/10"
                   : "bg-muted/60 text-foreground/80 hover:bg-accent hover:text-foreground"
               }`
-            : `flex items-center gap-3 rounded-lg px-3.5 py-2.5 text-sm transition-all duration-200 ${ 
+            : `flex items-center gap-3 rounded-lg px-3.5 py-2.5 text-sm transition-all duration-200 ${
                 active
                   ? "bg-sidebar-accent font-semibold text-sidebar-accent-foreground shadow-sm border-l-2 border-brand pl-3"
                   : "text-sidebar-foreground/70 hover:bg-sidebar-accent/40 hover:text-sidebar-foreground hover:translate-x-0.5"
