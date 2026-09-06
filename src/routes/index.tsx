@@ -36,17 +36,14 @@ function Home() {
         </div>
       </header>
 
-      {/* Main Content - Apenas a descrição do objetivo do app */}
+      {/* Main Content - Aguardando novas opções */}
       <main className="flex-1 flex items-center justify-center px-4 py-12">
         <div className="max-w-2xl w-full bg-white rounded-2xl p-8 sm:p-12 shadow-sm border border-slate-200 text-center">
-          <span className="inline-flex items-center gap-1.5 py-1 px-3 rounded-full text-xs font-semibold bg-blue-50 text-blue-700 mb-6">
-            <MapPin className="h-3 w-3" /> Portal Oficial do Distrito
-          </span>
-          <h1 className="text-3xl sm:text-4xl font-extrabold tracking-tight text-slate-900 mb-6">
-            Objetivo do Aplicativo
+          <h1 className="text-2xl sm:text-3xl font-bold tracking-tight text-slate-900 mb-4">
+            Bem-vindo ao Portal de George Oetterer
           </h1>
-          <p className="text-lg text-slate-600 leading-relaxed mb-8">
-            Este portal foi desenvolvido com o objetivo de facilitar o acesso dos moradores aos serviços públicos, notícias locais e ferramentas de gestão do distrito de George Oetterer, promovendo mais transparência, integração e colaboração para o desenvolvimento de toda a nossa comunidade.
+          <p className="text-slate-600 mb-8">
+            Aguardando novas opções de funcionalidades...
           </p>
           <div className="flex justify-center">
             <Link
